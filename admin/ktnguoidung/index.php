@@ -1,18 +1,18 @@
 <?php
 session_start();
 require("../../model/database.php");
-require("../../model/nguoidung.php");
+require("../../model/taikhoan.php");
 // Biến $isLogin cho biết người dùng đăng nhập chưa
 $isLogin = isset($_SESSION["nguoidung"]);
 // Kiểm tra hành động $action: yêu cầu đăng nhập nếu chưa xác thực
 if (isset($_REQUEST["action"])) {
     $action = $_REQUEST["action"];
-} elseif ($isLogin == FALSE) {
+} elseif ($isLogin == false) {
     $action = "dangnhap";
 } else {
     $action = "macdinh";
 }
-$nd = new NGUOIDUNG();
+$tk = new TAIKHOAN();
 switch ($action) {
     case "macdinh":
         include("main.php");
@@ -25,40 +25,36 @@ switch ($action) {
         include("xulydangnhap.php");
         break;
     case "xldangnhap":
-        $username = $_POST["txtusername"];
-        $matkhau = $_POST["txtmatkhau"];
-        if ($nd->kiemtranguoidunghople($username, $matkhau) == TRUE) {
-            $_SESSION["nguoidung"] = $nd->laythongtinnguoidung($username);
+        // legacy: process inline login (kept for compatibility)
+        $username = isset($_POST["txtusername"]) ? $_POST["txtusername"] : '';
+        $password = isset($_POST["txtmatkhau"]) ? $_POST["txtmatkhau"] : '';
+        if ($tk->kiemtrataikhoanhople($username, $password) == true) {
+            $_SESSION["nguoidung"] = $tk->laythongtin($username);
             include("main.php");
         } else {
             include("login.php");
         }
         break;
     case "hoso":
+        // show account info (TaiKhoan has limited fields)
         include("profile.php");
         break;
     case "xlhoso":
-        $mand = $_POST["txtid"];
-        $email = $_POST["txtemail"];
-        $sodt = $_POST["txtdienthoai"];
-        $hoten = $_POST["txthoten"];
-        $hinhanh = $_POST["txthinhanh"];
-        if ($_FILES["fhinh"]["name"] != null) {
-            $hinhanh = basename($_FILES["fhinh"]["name"]);
-            $duongdan = "../../images/users/" . $hinhanh;
-            move_uploaded_file($_FILES["fhinh"]["tmp_name"], $duongdan);
-        }
-        $nd->capnhatnguoidung($mand, $email, $sodt, $hoten, $hinhanh);
-        $_SESSION["nguoidung"] = $nd->laythongtinnguoidung($email);
+        // TaiKhoan table does not store profile details in this schema;
+        // no-op or future extension; just reload main
         include("main.php");
         break;
     case "matkhau":
         include("changepass.php");
         break;
     case "doimatkhau":
-        if (isset($_POST["txtusername"]) && isset($_POST["txtmatkhaumoi"]))
-            $nd->doimatkhau($_POST["txtusername"], $_POST["txtmatkhaumoi"]);
-        else {
+        if (isset($_POST["txtusername"]) && isset($_POST["txtmatkhaumoi"])) {
+            $tk->doimatkhau($_POST["txtusername"], $_POST["txtmatkhaumoi"]);
+            // update session info if logged in user changed own password
+            if (isset($_SESSION["nguoidung"]) && $_SESSION["nguoidung"]["email"] === $_POST["txtusername"]) {
+                $_SESSION["nguoidung"] = $tk->laythongtin($_POST["txtusername"]);
+            }
+        } else {
             echo "chưa đổi được mật khẩu";
         }
         include("main.php");

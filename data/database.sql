@@ -37,7 +37,7 @@ CREATE TABLE NhanVien (
     GioiTinh ENUM('Nam', 'Nữ'),
     SoDT VARCHAR(15),
     DiaChi VARCHAR(255),
-    NamSinh YEAR,
+    NgaySinh DATE,
     Email VARCHAR(100),
     MaCuaHang INT,
     MaCV INT,
@@ -89,11 +89,13 @@ CREATE TABLE KhachHang (
     MaKhachHang INT PRIMARY KEY AUTO_INCREMENT,
     HoTen VARCHAR(100),
     Email VARCHAR(100),
-    NamSinh YEAR,
+    NgaySinh DATE,
     DiaChi VARCHAR(255),
     SoDT VARCHAR(15),
     DiemThuong INT DEFAULT 0,
-    GioiTinh ENUM('Nam', 'Nữ')
+    Username VARCHAR(50),
+    GioiTinh ENUM('Nam', 'Nữ'),
+    FOREIGN KEY (Username) REFERENCES TaiKhoan(Username) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- =========================================================
@@ -212,10 +214,10 @@ VALUES
 ('Chi nhánh Hà Nội', 1, '0123456789', '123 Đường A, Hà Nội'),
 ('Chi nhánh TP.HCM', 2, '0987654321', '456 Đường B, TP.HCM');
 
-INSERT INTO NhanVien (HoTen, GioiTinh, SoDT, DiaChi, NamSinh, Email, MaCuaHang, MaCV)
+INSERT INTO NhanVien (HoTen, GioiTinh, SoDT, DiaChi, NgaySinh, Email, MaCuaHang, MaCV)
 VALUES
-('Nguyễn Văn A', 'Nam', '0901112222', 'Hà Nội', 1998, 'a@shop.com', 1, 1),
-('Trần Thị B', 'Nữ', '0913334444', 'TP.HCM', 2000, 'b@shop.com', 2, 2);
+('Nguyễn Văn A', 'Nam', '0901112222', 'Hà Nội', '1998-01-01', 'a@shop.com', 1, 1),
+('Trần Thị B', 'Nữ', '0913334444', 'TP.HCM', '2000-02-02', 'b@shop.com', 2, 2);
 
 UPDATE CuaHang SET MaNVQuanLy = 1 WHERE MaCuaHang = 1;
 
@@ -263,7 +265,7 @@ VALUES
 (2, 3, 10, 80000, 800000);
 
 -- Khách hàng và đơn hàng
-INSERT INTO KhachHang (HoTen, Email, NamSinh, DiaChi, SoDT, DiemThuong, GioiTinh)
+INSERT INTO KhachHang (HoTen, Email, NgaySinh, DiaChi, SoDT, DiemThuong, GioiTinh)
 VALUES
 ('Phạm Minh C', 'c@gmail.com', 2002, 'Đà Nẵng', '0905556666', 10, 'Nam');
 
@@ -282,6 +284,6 @@ VALUES
 
 INSERT INTO TaiKhoan (Username, Password, Quyen, TinhTrang)
 VALUES
-('admin', '123456', 'Admin', 'Hoạt động'),
+('admin', 'e10adc3949ba59abbe56e057f20f883e', 'Admin', 'Hoạt động'),
 ('nv_a', '123456', 'NhanVien', 'Hoạt động'),
 ('khach1', '123456', 'KhachHang', 'Hoạt động');

@@ -28,10 +28,10 @@ shrink-to-fit=no">
                                 $msg = '';
                                 switch ($err) {
                                     case 'missing':
-                                        $msg = 'Vui lòng nhập email và mật khẩu.';
+                                        $msg = 'Vui lòng nhập tên đăng nhập và mật khẩu.';
                                         break;
                                     case 'invalid':
-                                        $msg = 'Email hoặc mật khẩu không đúng.';
+                                        $msg = 'Tên đăng nhập hoặc mật khẩu không đúng.';
                                         break;
                                     case 'server':
                                         $msg = 'Lỗi máy chủ, vui lòng thử lại sau.';
@@ -48,14 +48,14 @@ shrink-to-fit=no">
                                 <div class="m-sm-3">
                                     <form action="index.php" method="post">
                                         <div class="mb-3">
-                                            <label class="form-label">Username</label>
+                                            <label class="form-label">Tên đăng nhập</label>
                                             <input class="form-control form-control-lg" type="text" name="txtusername"
-                                                placeholder="Nhập username" required />
+                                                placeholder="Nhập tên đăng nhập" required />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Mật khẩu</label>
                                             <input class="form-control form-control-lg" type="password"
-                                                name="txtmatkhau" placeholder="Nhập mật khẩu" />
+                                                name="txtmatkhau" placeholder="Nhập mật khẩu" required />
                                         </div>
                                         <div class="d-grid gap-2 my-3">
                                             <input type="hidden" name="action" value="xulydangnhap">
