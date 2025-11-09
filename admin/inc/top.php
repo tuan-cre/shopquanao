@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="icon" href="../../public/worldwide.ico" type="image/x-icon">
 
 	<title>Trang quản trị - ABC Shop</title>
 
@@ -45,6 +46,11 @@
 							</a>
 						</li>
 					<?php } ?>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="../saoluu/index.php">
+							<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Sao lưu phục hồi</span>
+						</a> 
 
 					<li class="sidebar-header text-info">
 						DANH MỤC
@@ -89,7 +95,7 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="">
+						<a class="sidebar-link" href="../qlkhachhang/index.php">
 							<i class="align-middle" data-feather="users"></i> <span class="align-middle">Quản lý khách
 								hàng</span>
 						</a>

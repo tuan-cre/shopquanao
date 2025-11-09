@@ -29,17 +29,22 @@ switch($action){
 		include("addform.php");
         break;
 	case "xulythem":	
-		// xử lý file upload
-		$hinhanh = "images/products/" . basename($_FILES["filehinhanh"]["name"]); // đường dẫn ảnh lưu trong db
-		$duongdan = "../../" . $hinhanh; // nơi lưu file upload (đường dẫn tính theo vị trí hiện hành)
-		move_uploaded_file($_FILES["filehinhanh"]["tmp_name"], $duongdan);
-		// xử lý thêm		
+
+		$ten_file_goc = basename($_FILES["filehinhanh"]["name"]);
+		$ten_file_sach = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", $ten_file_goc);
+		$hinhanh = "images/products/" . $ten_file_sach;
+		$duongdan = __DIR__ . "/../../" . $hinhanh;
+
+		$thu_muc_dich = dirname($duongdan);
+		if (!is_dir($thu_muc_dich)) {
+		    mkdir($thu_muc_dich, 0775, true);
+		}
+
+		move_uploaded_file($_FILES["filehinhanh"]["tmp_name"], $duongdan);	
         $mathanghh = new MATHANG();
 		$mathanghh->settenmathang($_POST["txttenmathang"]);
-		$mathanghh->setmota($_POST["txtmota"]);
 		$mathanghh->setgiagoc($_POST["txtgianhap"]);
 		$mathanghh->setgiaban($_POST["txtgiaban"]);
-		$mathanghh->setsoluongton($_POST["txtsoluong"]);
 		$mathanghh->setdanhmuc_id($_POST["optdanhmuc"]);
         $mathanghh->sethinhanh($hinhanh);
 		$mh->themmathang($mathanghh);
@@ -47,17 +52,17 @@ switch($action){
 		include("main.php");
         break;
 	case "xoa":
-		if(isset($_GET["id"])){
+		if(isset($_GET["MaSP"])){
             $mathanghh = new MATHANG();        
-            $mathanghh->setid($_GET["id"]);
+            $mathanghh->setid($_GET["MaSP"]);
 			$mh->xoamathang($mathanghh);
         }
 		$mathang = $mh->laymathang();
 		include("main.php");
 		break;	
     case "chitiet":
-        if(isset($_GET["id"])){ 
-            $m = $mh->laymathangtheoid($_GET["id"]);            
+        if(isset($_GET["MaSP"])){ 
+            $m = $mh->laymathangtheoid($_GET["MaSP"]);            
             include("detail.php");
         }
         else{
@@ -66,8 +71,8 @@ switch($action){
         }
         break;
     case "sua":
-        if(isset($_GET["id"])){ 
-            $m = $mh->laymathangtheoid($_GET["id"]);
+        if(isset($_GET["MaSP"])){ 
+            $m = $mh->laymathangtheoid($_GET["MaSP"]);
             $danhmuc = $dm->laydanhmuc(); 
             include("updateform.php");
         }
@@ -81,27 +86,20 @@ switch($action){
         $mathanghh->setid($_POST["txtid"]);
         $mathanghh->setdanhmuc_id($_POST["optdanhmuc"]);
         $mathanghh->settenmathang($_POST["txttenhang"]);
-        $mathanghh->setmota($_POST["txtmota"]);
         $mathanghh->setgiagoc($_POST["txtgiagoc"]);
         $mathanghh->setgiaban($_POST["txtgiaban"]);
-        $mathanghh->setsoluongton($_POST["txtsoluongton"]);
-        $mathanghh->setluotxem($_POST["txtluotxem"]);
-        $mathanghh->setluotmua($_POST["txtluotmua"]);
+
         $mathanghh->sethinhanh($_POST["txthinhcu"]);
 
-        // upload file mới (nếu có)
         if($_FILES["filehinhanh"]["name"]!=""){
-            // xử lý file upload -- Cần bổ dung kiểm tra: dung lượng, kiểu file, ...       
-            $hinhanh = "images/" . basename($_FILES["filehinhanh"]["name"]);// đường dẫn lưu csdl
+            $hinhanh = "images/" . basename($_FILES["filehinhanh"]["name"]);
             $mathanghh->sethinhanh($hinhanh);
-            $duongdan = "../../" . $hinhanh; // đường dẫn lưu upload file        
+            $duongdan = "../../" . $hinhanh;      
             move_uploaded_file($_FILES["filehinhanh"]["tmp_name"], $duongdan);
         }
         
-        // sửa mặt hàng
         $mh->suamathang($mathanghh);         
     
-        // hiển thị ds mặt hàng
         $mathang = $mh->laymathang();    
         include("main.php");
         break;
