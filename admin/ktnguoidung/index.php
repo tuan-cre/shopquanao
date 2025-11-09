@@ -25,10 +25,10 @@ switch ($action) {
         include("xulydangnhap.php");
         break;
     case "xldangnhap":
-        $email = $_POST["txtemail"];
+        $username = $_POST["txtusername"];
         $matkhau = $_POST["txtmatkhau"];
-        if ($nd->kiemtranguoidunghople($email, $matkhau) == TRUE) {
-            $_SESSION["nguoidung"] = $nd->laythongtinnguoidung($email);
+        if ($nd->kiemtranguoidunghople($username, $matkhau) == TRUE) {
+            $_SESSION["nguoidung"] = $nd->laythongtinnguoidung($username);
             include("main.php");
         } else {
             include("login.php");
@@ -56,8 +56,8 @@ switch ($action) {
         include("changepass.php");
         break;
     case "doimatkhau":
-        if (isset($_POST["txtemail"]) && isset($_POST["txtmatkhaumoi"]))
-            $nd->doimatkhau($_POST["txtemail"], $_POST["txtmatkhaumoi"]);
+        if (isset($_POST["txtusername"]) && isset($_POST["txtmatkhaumoi"]))
+            $nd->doimatkhau($_POST["txtusername"], $_POST["txtmatkhaumoi"]);
         else {
             echo "chưa đổi được mật khẩu";
         }

@@ -48,9 +48,9 @@ shrink-to-fit=no">
                                 <div class="m-sm-3">
                                     <form action="index.php" method="post">
                                         <div class="mb-3">
-                                            <label class="form-label">Email</label>
-                                            <input class="form-control form-control-lg" type="email" name="txtemail"
-                                                placeholder="Nhập email" />
+                                            <label class="form-label">Username</label>
+                                            <input class="form-control form-control-lg" type="text" name="txtusername"
+                                                placeholder="Nhập username" required />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Mật khẩu</label>

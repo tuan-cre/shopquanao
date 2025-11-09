@@ -9,11 +9,11 @@
             <div class="card-body">
                 <!-- Form đổi mật khẩu -->
                 <form method="post" name="f" action="../ktnguoidung/index.php">
-                    <input type="hidden" name="txtemail" value="<?php echo
-                        $_SESSION["nguoidung"]["email"]; ?>">
+                    <input type="hidden" name="txtusername" value="<?php echo
+                        $_SESSION["nguoidung"]["email"]; // Giả định email là username ?>">
                     <div class="my-3">
-                        <label>Email1</label>
-                        <input disabled class="form-control" type="text" name="txtemail_in"
+                        <label>Username (Email)</label>
+                        <input disabled class="form-control" type="text" name="txtusername_in"
                             value="<?php echo $_SESSION["nguoidung"]["email"]; ?>">
                     </div>
                     <div class="my-3">

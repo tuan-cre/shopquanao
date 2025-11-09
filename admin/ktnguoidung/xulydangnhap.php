@@ -8,22 +8,22 @@ require_once __DIR__ . '/../../model/database.php';
 require_once __DIR__ . '/../../model/nguoidung.php';
 
 // Lấy dữ liệu từ form
-$email = isset($_POST['txtemail']) ? trim($_POST['txtemail']) : '';
+$username = isset($_POST['txtusername']) ? trim($_POST['txtusername']) : '';
 $matkhau = isset($_POST['txtmatkhau']) ? $_POST['txtmatkhau'] : '';
 
 $nd = new NGUOIDUNG();
 
 // Kiểm tra các trường bắt buộc
-if (empty($email) || empty($matkhau)) {
+if (empty($username) || empty($matkhau)) {
     // Chuyển về trang đăng nhập với thông báo lỗi
     header('Location: index.php?action=dangnhap&error=missing');
     exit();
 }
 
 try {
-    if ($nd->kiemtranguoidunghople($email, $matkhau) === TRUE) {
+    if ($nd->kiemtranguoidunghople($username, $matkhau) === TRUE) {
         // Lưu thông tin người dùng vào session
-        $_SESSION['nguoidung'] = $nd->laythongtinnguoidung($email);
+        $_SESSION['nguoidung'] = $nd->laythongtinnguoidung($username);
         // Chuyển tới trang chính quản trị
         header('Location: index.php?action=macdinh');
         exit();

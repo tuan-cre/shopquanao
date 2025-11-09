@@ -25,7 +25,7 @@ class DANHMUC{
     public function laydanhmuc(){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "SELECT * FROM danhmuc";
+            $sql = "SELECT * FROM DanhMuc";
             $cmd = $dbcon->prepare($sql);
             $cmd->execute();
             $result = $cmd->fetchAll();
@@ -67,7 +67,7 @@ class DANHMUC{
     public function laydanhmuctheoid($id){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "SELECT * FROM danhmuc WHERE id=:id";
+            $sql = "SELECT * FROM DanhMuc WHERE MaDM=:id";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":id", $id);
             $cmd->execute();
@@ -85,7 +85,7 @@ class DANHMUC{
     public function themdanhmuc($danhmucmoi){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "INSERT INTO danhmuc(tendanhmuc) VALUES(:tendanhmuc)";
+            $sql = "INSERT INTO DanhMuc(TenDanhMuc) VALUES(:tendanhmuc)";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":tendanhmuc", $danhmucmoi->getTendanhmuc());
             $cmd->execute();
@@ -101,7 +101,7 @@ class DANHMUC{
     public function capnhatdanhmuc($danhmuccapnhat){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "UPDATE danhmuc SET tendanhmuc=:tendanhmuc WHERE id=:id";
+            $sql = "UPDATE DanhMuc SET TenDanhMuc=:tendanhmuc WHERE MaDM=:id";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":id", $danhmuccapnhat->getID());
             $cmd->bindValue(":tendanhmuc", $danhmuccapnhat->getTendanhmuc());
@@ -118,7 +118,7 @@ class DANHMUC{
     public function xoadanhmuc($danhmucxoa){
         $dbcon = DATABASE::connect();
         try{
-            $sql = "DELETE FROM danhmuc WHERE id=:id";
+            $sql = "DELETE FROM DanhMuc WHERE MaDM=:id";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":id", $danhmucxoa->getID());
             $cmd->execute();
