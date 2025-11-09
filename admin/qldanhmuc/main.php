@@ -5,17 +5,17 @@
 	<tr><th>ID</th><th>Tên danh mục</th><th>Sửa</th><th>Xóa</th></tr>
 	<?php 
 	foreach ($danhmuc as $d) : 
-		if($d["id"] == $idsua){ // hiển thị form
+		if($d["MaDM"] == $idsua){ // hiển thị form
 	?>
 		<tr>
 		<form method="post">
 			<input type="hidden" name="action" value="capnhat">
-			<input type="hidden" name="id" value="<?php echo $d["id"]; ?>">
-			<td><?php echo $d["id"]; ?></td>
-			<td><input class="form-control" name="ten" type="text" value="<?php echo $d["tendanhmuc"]; ?>"></td>
+			<input type="hidden" name="id" value="<?php echo $d["MaDM"]; ?>">
+			<td><?php echo $d["MaDM"]; ?></td>
+			<td><input class="form-control" name="ten" type="text" value="<?php echo $d["TenDanhMuc"]; ?>"></td>
 			<td><input class="btn btn-success" type="submit" value="Lưu"></td>
 		</form>
-			<td><a href="index.php?action=xoa&id=<?php echo $d["id"]; ?>" class="btn btn-danger">Xóa</a></td>
+			<td><a href="index.php?action=xoa&MaDM=<?php echo $d["MaDM"]; ?>" class="btn btn-danger">Xóa</a></td>
 		</tr>
 
 	<?php 
@@ -23,10 +23,10 @@
 		else {
 	?>
 		<tr>
-			<td><?php echo $d["id"]; ?></td>
-			<td><?php echo $d["tendanhmuc"]; ?></td>
-			<td><a href="index.php?action=sua&id=<?php echo $d["id"]; ?>" class="btn btn-warning">Sửa</a></td>
-			<td><a href="index.php?action=xoa&id=<?php echo $d["id"]; ?>" class="btn btn-danger">Xóa</a></td>
+			<td><?php echo $d["MaDM"]; ?></td>
+			<td><?php echo $d["TenDanhMuc"]; ?></td>
+			<td><a href="index.php?action=sua&MaDM=<?php echo $d["MaDM"]; ?>" class="btn btn-warning">Sửa</a></td>
+			<td><a href="index.php?action=xoa&MaDM=<?php echo $d["MaDM"]; ?>" class="btn btn-danger">Xóa</a></td>
 		</tr>
 	<?php 
 		} // end else

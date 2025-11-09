@@ -107,7 +107,7 @@ class MATHANG
     {
         $db = DATABASE::connect();
         try {
-            $sql = "SELECT * FROM mathang";
+            $sql = "SELECT * FROM SanPham";
             $cmd = $db->prepare($sql);
             $cmd->execute();
             $mathang = $cmd->fetchAll();
@@ -124,7 +124,7 @@ class MATHANG
     {
         $db = DATABASE::connect();
         try {
-            $sql = "SELECT * FROM mathang WHERE id = :id";
+            $sql = "SELECT * FROM SanPham WHERE MaSP = :id";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(':id', $id);
             $cmd->execute();
@@ -142,42 +142,9 @@ class MATHANG
     {
         $db = DATABASE::connect();
         try {
-            $sql = "SELECT * FROM mathang WHERE danhMuc_id = :danhMuc_id";
+            $sql = "SELECT * FROM SanPham WHERE MaDM = :danhMuc_id";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(':danhMuc_id', $danhMuc_id);
-            $cmd->execute();
-            $mathang = $cmd->fetchAll();
-            $cmd->closeCursor();
-            return $mathang;
-        } catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            echo "<p>Lỗi truy vấn: $error_message</p>";
-            exit();
-        }
-    }
-
-    public function tangLuotXem($id)
-    {
-        $db = DATABASE::connect();
-        try {
-            $sql = "UPDATE mathang SET luotXem = luotXem + 1 WHERE id = :id";
-            $cmd = $db->prepare($sql);
-            $cmd->bindValue(':id', $id);
-            $cmd->execute();
-            $cmd->closeCursor();
-        } catch (PDOException $e) {
-            $error_message = $e->getMessage();
-            echo "<p>Lỗi truy vấn: $error_message</p>";
-            exit();
-        }
-    }
-
-    public function laymathangxemnhieu()
-    {
-        $db = DATABASE::connect();
-        try {
-            $sql = "SELECT * FROM mathang ORDER BY luotxem DESC LIMIT 5";
-            $cmd = $db->prepare($sql);
             $cmd->execute();
             $mathang = $cmd->fetchAll();
             $cmd->closeCursor();
@@ -194,16 +161,14 @@ class MATHANG
     {
         $dbcon = DATABASE::connect();
         try {
-            $sql = "INSERT INTO
-mathang(tenmathang,mota,giagoc,giaban,soluongton,danhmuc_id,hinhanh,luotxem,luotmua)
-VALUES(:tenmathang,:mota,:giagoc,:giaban,:soluongton,:danhmuc_id,:hinhanh,0,0)";
+            // Bảng SanPham không có mota, soluongton, luotxem, luotmua
+            $sql = "INSERT INTO SanPham(TenSP, GiaGoc, GiaBan, MaDM, HinhAnh)
+                    VALUES(:tensp, :giagoc, :giaban, :madm, :hinhanh)";
             $cmd = $dbcon->prepare($sql);
-            $cmd->bindValue(":tenmathang", $mathang->getTenMatHang());
-            $cmd->bindValue(":mota", $mathang->getMoTa());
+            $cmd->bindValue(":tensp", $mathang->getTenMatHang());
             $cmd->bindValue(":giagoc", $mathang->getGiaGoc());
             $cmd->bindValue(":giaban", $mathang->getGiaBan());
-            $cmd->bindValue(":soluongton", $mathang->getSoLuongTon());
-            $cmd->bindValue(":danhmuc_id", $mathang->getDanhMuc_Id());
+            $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
             $cmd->bindValue(":hinhanh", $mathang->getHinhAnh());
             $result = $cmd->execute();
             return $result;
@@ -219,7 +184,7 @@ VALUES(:tenmathang,:mota,:giagoc,:giaban,:soluongton,:danhmuc_id,:hinhanh,0,0)";
     {
         $dbcon = DATABASE::connect();
         try {
-            $sql = "DELETE FROM mathang WHERE id=:id";
+            $sql = "DELETE FROM SanPham WHERE MaSP=:id";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":id", $mathang->getId());
             $result = $cmd->execute();
@@ -236,26 +201,19 @@ VALUES(:tenmathang,:mota,:giagoc,:giaban,:soluongton,:danhmuc_id,:hinhanh,0,0)";
     {
         $dbcon = DATABASE::connect();
         try {
-            $sql = "UPDATE mathang SET  tenmathang=:tenmathang,
-                                        mota=:mota,
-                                        giagoc=:giagoc,
-                                        giaban=:giaban,
-                                        soluongton=:soluongton,
-                                        danhmuc_id=:danhmuc_id,
-                                        hinhanh=:hinhanh,
-                                        luotxem=:luotxem,
-                                        luotmua=:luotmua
-                                        WHERE id=:id";
+            // Bảng SanPham không có mota, soluongton, luotxem, luotmua
+            $sql = "UPDATE SanPham SET TenSP=:tensp,
+                                        GiaGoc=:giagoc,
+                                        GiaBan=:giaban,
+                                        MaDM=:madm,
+                                        HinhAnh=:hinhanh
+                                    WHERE MaSP=:id";
             $cmd = $dbcon->prepare($sql);
-            $cmd->bindValue(":tenmathang", $mathang->getTenMatHang());
-            $cmd->bindValue(":mota", $mathang->getMoTa());
+            $cmd->bindValue(":tensp", $mathang->getTenMatHang());
             $cmd->bindValue(":giagoc", $mathang->getGiaGoc());
             $cmd->bindValue(":giaban", $mathang->getGiaBan());
-            $cmd->bindValue(":soluongton", $mathang->getSoLuongTon());
-            $cmd->bindValue(":danhmuc_id", $mathang->getDanhMuc_Id());
+            $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
             $cmd->bindValue(":hinhanh", $mathang->getHinhAnh());
-            $cmd->bindValue(":luotxem", $mathang->getLuotXem());
-            $cmd->bindValue(":luotmua", $mathang->getLuotMua());
             $cmd->bindValue(":id", $mathang->getId());
             $result = $cmd->execute();
             return $result;
