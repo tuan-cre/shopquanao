@@ -64,7 +64,7 @@
 
         <!-- Content -->
         <div class="content d-flex flex-column justify-content-center align-items-start px-5 mb-4 h-100">
-            <h1 class="fw-bold text-white">Chào mừng đến với Shop Thời Trang</h1>
+            <h1 class="fw-bold text-white">Chào mừng đến với Shop UNI</h1>
             <p class="fw-bold"> No rules. No gender. Just UNI <br>
                                 Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
             <div class="row">
