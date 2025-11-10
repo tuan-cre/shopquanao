@@ -9,3 +9,8 @@ header {
 .navbar {
     background-color: rgba(0, 0, 0, 0.7) !important;
 }
+
+.content p {
+    color: whitesmoke;
+    font-size: 25px !important;
+}

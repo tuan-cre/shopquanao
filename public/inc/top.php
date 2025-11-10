@@ -57,15 +57,16 @@
         <!-- Search -->
         <div class="search-bar px-5 py-2 d-flex justify-content-end">
             <form class="d-flex" role="search" style="width: 470px;">
-                <input class="form-control form-control-lg me-2" type="search" placeholder="Search for books" aria-label="Search">
+                <input class="form-control form-control-lg me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
                 <button class="btn btn-outline-light btn-lg" type="submit"><i class="bi bi-search"></i></button>
             </form>
         </div>
 
         <!-- Content -->
         <div class="content d-flex flex-column justify-content-center align-items-start px-5 mb-4 h-100">
-            <h3 class="fw-bold text-white">Chào mừng đến với Shop Thời Trang</h3>
-            <p class="fw-bold text-white fs-2">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit labore d.</p>
+            <h1 class="fw-bold text-white">Chào mừng đến với Shop Thời Trang</h1>
+            <p class="fw-bold"> No rules. No gender. Just UNI <br>
+                                Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
             <div class="row">
                 <div class="col-auto me-2">
                     <button class="btn btn-info"> Đăng nhập</button>
