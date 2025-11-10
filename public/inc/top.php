@@ -10,6 +10,12 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         
+        <style>
+            .footer-link:hover {
+                color: #ffc107 !important; /* Màu vàng sáng của Bootstrap */
+                text-decoration: underline !important;
+            }
+        </style>
     </head>
     <body id="top">
         

@@ -39,37 +39,46 @@
         </section> 
 
         <!-- Footer-->
-        <footer class="py-5 bg-info">
-            <div class="text-center mb-5"><a class="text-warning" href="#top"><i class="bi bi-chevron-up"  style="font-size: 3rem; font-weight: bold; color:white;"></i></a></div>
+        <footer class="py-5 bg-dark text-light">
+            <div class="text-center mb-4"><a href="#top" class="text-warning"><i class="bi bi-chevron-up" style="font-size: 3rem;"></i></a></div>
             
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 text-light">
+                    <div class="col-md-5">
                         <a href="index.php" class="text-decoration-none text-white">
-                        <h4><span class="badge text-white bg-success">A</span>
-                            <span class="badge text-white bg-danger">B</span>
-                            <span class="badge text-white bg-warning">C</span> Shop - Cửa hàng văn phòng phẩm</h4></a>
-                        <p><b><i>Địa chỉ:</i></b> 18 Ung Văn Khiêm, phường Đông Xuyên, TP Long Xuyên, An Giang<br>
-                            <b><i>Điện thoại:</i></b> 076 3841190<br> 
-                            <b><i>Email:</i></b> abc@abc.com</p>
+                            <h4>
+                                <i class="bi bi-shop"></i>
+                                <span class="badge bg-success">A</span><span class="badge bg-danger">B</span><span class="badge bg-warning">C</span> Shop
+                            </h4>
+                        </a>
+                        <p>Cửa hàng văn phòng phẩm uy tín, chất lượng.</p>
+                        <p><i class="bi bi-geo-alt-fill"></i> <b>Địa chỉ:</b> 18 Ung Văn Khiêm, P. Đông Xuyên, TP Long Xuyên, An Giang</p>
+                        <p><i class="bi bi-telephone-fill"></i> <b>Điện thoại:</b> 076 3841190</p>
+                        <p><i class="bi bi-envelope-fill"></i> <b>Email:</b> abc@abc.com</p>
                     </div>
-                    <div class="col-md-3 text-muted">
-                        <h4>DANH MỤC HÀNG</h4>                        
-                        <?php foreach ($danhmuc as $d): ?>
-                            <a class="list-group-item" href="?action=group&id=<?php echo $d["id"]; ?>">
-							<?php echo $d["tendanhmuc"]; ?>
-							</a>
-                        <?php endforeach; ?>
+                    <div class="col-md-4">
+                        <h5><i class="bi bi-list-ul"></i> DANH MỤC SẢN PHẨM</h5>
+                        <div class="list-group list-group-flush">
+                            <!-- <?php foreach ($danhmuc as $d): ?>
+                                <a class="list-group-item list-group-item-action bg-dark text-light" href="?action=group&id=<?php echo $d["id"]; ?>">
+                                    <?php echo $d["tendanhmuc"]; ?>
+                                </a>
+                            <?php endforeach; ?> -->
+                        </div>
                     </div>
-                    <div class="col-md-3 text-muted">
-                        <h4>DỊCH VỤ KHÁCH HÀNG</h4>
-                        <a href="#" class="list-group-item">Hướng dẫn mua hàng</a>
-                        <a href="#" class="list-group-item">Câu hỏi thường gặp</a>
-                        <a href="#" class="list-group-item">Liên hệ với chúng tôi</a>
+                    <div class="col-md-3">
+                        <h5><i class="bi bi-headset"></i> DỊCH VỤ KHÁCH HÀNG</h5>
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action bg-dark text-light footer-link">Hướng dẫn mua hàng</a>
+                            <a href="#" class="list-group-item list-group-item-action bg-dark text-light footer-link">Câu hỏi thường gặp</a>
+                            <a href="#" class="list-group-item list-group-item-action bg-dark text-light footer-link">Liên hệ</a>
+							<a href="#" class="list-group-item list-group-item-action bg-dark text-light footer-link">Chính sách bảo hành</a>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <p class="m-0 text-center text-warning fw-bolder">Copyright &copy; ABC Shop 2023</p></div>
+                <hr class="text-light">
+                <p class="m-0 text-center text-white-50">Copyright &copy; ABC Shop 2023</p>
+            </div>
         </footer>
 
     </body>
