@@ -1,0 +1,11 @@
+/* ============================== header ========================================== */
+header {
+    background: url('../../images/background.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}

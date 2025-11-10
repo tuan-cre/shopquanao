@@ -6,8 +6,8 @@
 
     $dm = new DANHMUC();
     $danhmuc = $dm->laydanhmuc();
-    //$mh = new MATHANG();    
-    //$mathangnoibat = $mh->laymathangxemnhieu();
+    $mh = new MATHANG();    
+    // $mathangnoibat = $mh->laymathangxemnhieu();
 
     if(isset($_REQUEST["action"])){
         $action = $_REQUEST["action"];
