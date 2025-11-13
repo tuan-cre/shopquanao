@@ -37,6 +37,25 @@
                         <li class="nav-item fw-bold"><a class="nav-link" href="#!">Liên hệ</a></li>
                     </ul>
 
+                    <!-- Cart button -->
+                    <div class="d-flex align-items-center me-3">
+                        <a href="index.php?action=giohang" class="btn btn-outline-light position-relative">
+                            <i class="bi bi-cart-fill me-1"></i>
+                            Giỏ hàng
+                            <?php 
+                            $cartCount = 0;
+                            if (isset($_SESSION['cart'])) {
+                                $cartCount = array_sum($_SESSION['cart']);
+                            }
+                            if ($cartCount > 0): 
+                            ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?php echo $cartCount; ?>
+                            </span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+
                     <!-- Info -->
                     <div class="dropdown align-items-center">
                         <a class="dropdown-toggle me-3 text-decoration-none" href="#"
@@ -45,7 +64,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item " href="#">Thông tin</a></li>
-                            <li><a class="dropdown-item " href="#">Giỏ hàng</a></li>
+                            <li><a class="dropdown-item " href="index.php?action=giohang">Giỏ hàng</a></li>
                             <li><a class="dropdown-item " href="#!">Đổi mật khẩu</a></li>
                             <li><a class="dropdown-item " href="#!">Đăng xuất</a></li>
                         </ul>
