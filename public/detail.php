@@ -25,7 +25,7 @@
                 <hr>
                 <form method="get" action="index.php">
                     <input type="hidden" name="action" value="chovaogio">
-                    <input type="hidden" name="id" value="<?php echo $mhct['id']; ?>">
+                    <input type="hidden" name="id" value="<?php echo $mhct['MaSP']; ?>">
                     <div class="size-selector">
                         <input type="radio" id="size-s" name="size" value="S">
                         <label for="size-s">S</label>
