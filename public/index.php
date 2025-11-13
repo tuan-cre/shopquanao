@@ -18,7 +18,7 @@
 
     switch($action){
         case "null": 	
-            //$mathang = $mh->laymathang();
+            $mathang = $mh->laymathang();
             include("main.php");
             break;
         // case "group":
