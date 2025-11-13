@@ -33,11 +33,11 @@
                         <?php foreach($giohang as $id => $mh): ?>
                         <tr>
                             <td>
-                                <img width="80" src="../images/products/<?php echo $mh["hinhanh"]; ?>" 
+                                <img width="80" src="../<?php echo $mh["hinhanh"]; ?>" 
                                      class="rounded" style="height: 80px; object-fit: cover;">
                             </td>
                             <td class="align-middle">
-                                <a href="index.php?action=chitiet&id=<?php echo $id; ?>" 
+                                <a href="index.php?action=chitiet&id=<?php echo $mh["id"]; ?>" 
                                    class="text-decoration-none text-dark">
                                     <strong><?php echo $mh["tenmathang"]; ?></strong>
                                 </a>
@@ -47,7 +47,7 @@
                             </td>
                             <td class="align-middle">
                                 <input type="number" 
-                                       name="mh[<?php echo $id; ?>]" 
+                                       name="mh[<?php echo $mh["id"]; ?>]" 
                                        value="<?php echo $mh["soluong"]; ?>" 
                                        min="0" 
                                        class="form-control" 
@@ -64,7 +64,13 @@
                             <td colspan="3"></td>
                             <td class="fw-bold">Tổng tiền</td>
                             <td class="text-danger fw-bold fs-5">
-                                <?php echo number_format(tinhtiengiohang()); ?> đ
+                                <?php 
+                                $tongtien = 0;
+                                foreach($giohang as $item) {
+                                    $tongtien += $item["thanhtien"];
+                                }
+                                echo number_format($tongtien); 
+                                ?> đ
                             </td>
                         </tr>
                     </tfoot>

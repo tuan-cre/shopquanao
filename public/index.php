@@ -26,7 +26,7 @@ function tinhtiengiohang() {
     foreach ($_SESSION['cart'] as $masp => $soluong) {
         $sp = $mh->laymathangtheoid($masp);
         if ($sp) {
-            $total += $sp['giaban'] * $soluong;
+            $total += $sp['GiaBan'] * $soluong;
         }
     }
     return $total;
@@ -53,7 +53,7 @@ switch($action){
         if(isset($_REQUEST["id"])){
             $id = $_REQUEST["id"];
             $danhmuctheoID = $dm->laydanhmuctheoid($id);
-            $tendanhmuc = $danhmuctheoID['tendanhmuc'];
+            $tendanhmuc = $danhmuctheoID['TenDM'];
             $mathang = $mh->laymathangtheodanhmuc($id);
             include("group.php");
         }
@@ -69,8 +69,8 @@ switch($action){
             $mahang = $_GET["id"];
             // $mh->tangluotxem($mahang); // Bỏ comment nếu có method này trong model
             $mhct = $mh->laymathangtheoid($mahang);
-            if ($mhct && isset($mhct["danhmuc_id"])) {
-                $madm = $mhct["danhmuc_id"];
+            if ($mhct && isset($mhct["MaDM"])) {
+                $madm = $mhct["MaDM"];
                 $mathang = $mh->laymathangtheodanhmuc($madm);
             }
             include("detail.php");
@@ -84,12 +84,12 @@ switch($action){
             $sp = $mh->laymathangtheoid($masp);
             if ($sp) {
                 $giohang[$masp] = [
-                    'id' => $sp['id'],
-                    'tenmathang' => $sp['tenmathang'],
-                    'hinhanh' => $sp['hinhanh'],
-                    'giaban' => $sp['giaban'],
+                    'id' => $sp['MaSP'],
+                    'tenmathang' => $sp['TenSP'],
+                    'hinhanh' => $sp['HinhAnh'],
+                    'giaban' => $sp['GiaBan'],
                     'soluong' => $soluong,
-                    'thanhtien' => $sp['giaban'] * $soluong
+                    'thanhtien' => $sp['GiaBan'] * $soluong
                 ];
             }
         }
@@ -123,12 +123,12 @@ switch($action){
             $sp = $mh->laymathangtheoid($masp);
             if ($sp) {
                 $giohang[$masp] = [
-                    'id' => $sp['id'],
-                    'tenmathang' => $sp['tenmathang'],
-                    'hinhanh' => $sp['hinhanh'],
-                    'giaban' => $sp['giaban'],
+                    'id' => $sp['MaSP'],
+                    'tenmathang' => $sp['TenSP'],
+                    'hinhanh' => $sp['HinhAnh'],
+                    'giaban' => $sp['GiaBan'],
                     'soluong' => $sl,
-                    'thanhtien' => $sp['giaban'] * $sl
+                    'thanhtien' => $sp['GiaBan'] * $sl
                 ];
             }
         }
@@ -154,12 +154,12 @@ switch($action){
             $sp = $mh->laymathangtheoid($masp);
             if ($sp) {
                 $giohang[$masp] = [
-                    'id' => $sp['id'],
-                    'tenmathang' => $sp['tenmathang'],
-                    'hinhanh' => $sp['hinhanh'],
-                    'giaban' => $sp['giaban'],
+                    'id' => $sp['MaSP'],
+                    'tenmathang' => $sp['TenSP'],
+                    'hinhanh' => $sp['HinhAnh'],
+                    'giaban' => $sp['GiaBan'],
                     'soluong' => $sl,
-                    'thanhtien' => $sp['giaban'] * $sl
+                    'thanhtien' => $sp['GiaBan'] * $sl
                 ];
             }
         }
