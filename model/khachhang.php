@@ -90,7 +90,7 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "SELECT * FROM khachhang";
+            $sql = "SELECT * FROM KhachHang";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -105,7 +105,7 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "INSERT INTO khachhang (HoTen, DiaChi, SoDT, Email, GioiTinh, NgaySinh, DiemThuong) 
+            $sql = "INSERT INTO KhachHang (HoTen, DiaChi, SoDT, Email, GioiTinh, NgaySinh, DiemThuong) 
                     VALUES (:hoTen, :diaChi, :soDienThoai, :email, :gioiTinh, :namSinh, :diemThuong)";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':hoTen', $khachhang->hoTen);
@@ -127,7 +127,7 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "SELECT * FROM khachhang WHERE MaKhachHang = :maKH";
+            $sql = "SELECT * FROM KhachHang WHERE MaKhachHang = :maKH";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':maKH', $maKH);
             $stmt->execute();
@@ -143,7 +143,7 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "UPDATE khachhang 
+            $sql = "UPDATE KhachHang 
                     SET HoTen = :hoTen, DiaChi = :diaChi, SoDT = :soDienThoai, 
                         Email = :email, GioiTinh = :gioiTinh, NgaySinh = :namSinh 
                     WHERE MaKhachHang = :maKH";
@@ -167,7 +167,7 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "DELETE FROM khachhang WHERE MaKhachHang = :maKH";
+            $sql = "DELETE FROM KhachHang WHERE MaKhachHang = :maKH";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':maKH', $maKH);
             return $stmt->execute();
