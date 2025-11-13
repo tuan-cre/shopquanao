@@ -124,24 +124,27 @@ class NGUOIDUNG
         }
     }
 
-    // lấy tất cả người dùng
+    // lấy tất cả người dùng (chỉ từ bảng TaiKhoan)
     public function laydanhsachnguoidung()
     {
         $db = DATABASE::connect();
         try {
-            $sql = "SELECT * FROM nguoidung ORDER BY loai ASC, hoten ASC";
+            $sql = "SELECT Username as email, '' as hoten, '' as sodienthoai,
+                           Quyen as loai, TinhTrang as trangthai, '' as hinhanh
+                    FROM TaiKhoan
+                    ORDER BY Quyen ASC, Username ASC";
             $cmd = $db->prepare($sql);
             $cmd->execute();
             $ketqua = $cmd->fetchAll();
+            $dsnguoidung = [];
             foreach ($ketqua as $nd) {
                 $nguoidung = new NGUOIDUNG();
-                $nguoidung->setId($nd["id"]);
+                $nguoidung->setId(0); // Không có ID
                 $nguoidung->setEmail($nd["email"]);
-                $nguoidung->setHoten($nd["hoten"]);
-                $nguoidung->setMatkhau($nd["matkhau"]);
+                $nguoidung->setHoten($nd["email"]); // Tạm dùng email làm họ tên
                 $nguoidung->setSodienthoai($nd["sodienthoai"]);
-                $nguoidung->setLoai($nd["loai"]);
-                $nguoidung->setTrangthai($nd["trangthai"]);
+                $nguoidung->setLoai($nd["loai"] == 'Admin' ? 1 : ($nd["loai"] == 'NhanVien' ? 2 : 3));
+                $nguoidung->setTrangthai($nd["trangthai"] == 'Hoạt động' ? 1 : 0);
                 $nguoidung->setHinhanh($nd["hinhanh"]);
                 $dsnguoidung[] = $nguoidung;
             }
@@ -158,16 +161,17 @@ class NGUOIDUNG
     {
         $db = DATABASE::connect();
         try {
-            $sql = "INSERT INTO nguoidung (email, hoten, matkhau, sodienthoai, loai, trangthai, hinhanh)
-                    VALUES (:email, :hoten, :matkhau, :sodienthoai, :loai, :trangthai, :hinhanh)";
+            // Chỉ thêm vào bảng TaiKhoan
+            $quyen = ($nguoidung->getLoai() == 1) ? 'Admin' : (($nguoidung->getLoai() == 2) ? 'NhanVien' : 'KhachHang');
+            $tinhtrang = ($nguoidung->getTrangthai() == 1) ? 'Hoạt động' : 'Khóa';
+            
+            $sql = "INSERT INTO TaiKhoan (Username, Password, Quyen, TinhTrang)
+                    VALUES (:username, :password, :quyen, :tinhtrang)";
             $cmd = $db->prepare($sql);
-            $cmd->bindValue(":email", $nguoidung->getEmail());
-            $cmd->bindValue(":hoten", $nguoidung->getHoten());
-            $cmd->bindValue(":matkhau", md5($nguoidung->getMatkhau()));
-            $cmd->bindValue(":sodienthoai", $nguoidung->getSodienthoai());
-            $cmd->bindValue(":loai", $nguoidung->getLoai());
-            $cmd->bindValue(":trangthai", $nguoidung->getTrangthai());
-            $cmd->bindValue(":hinhanh", $nguoidung->getHinhanh());
+            $cmd->bindValue(":username", $nguoidung->getEmail());
+            $cmd->bindValue(":password", md5($nguoidung->getMatkhau()));
+            $cmd->bindValue(":quyen", $quyen);
+            $cmd->bindValue(":tinhtrang", $tinhtrang);
             $cmd->execute();
         } catch (PDOException $e) {
             $error_message = $e->getMessage();
@@ -213,14 +217,15 @@ class NGUOIDUNG
     }
 
     // Đổi quyền người dùng
-    public function doiQuyen($id, $loaiMoi) {
+    public function doiQuyen($username, $loaiMoi) {
         $db = DATABASE::connect();
         try {
-            // Cần có username để cập nhật bảng TaiKhoan
-            $sql = "UPDATE TaiKhoan SET Quyen=:loai WHERE Username=(SELECT Email FROM NhanVien WHERE MaNV=:id)";
+            // Chuyển đổi số sang text
+            $quyen = ($loaiMoi == 1) ? 'Admin' : (($loaiMoi == 2) ? 'NhanVien' : 'KhachHang');
+            $sql = "UPDATE TaiKhoan SET Quyen=:quyen WHERE Username=:username";
             $cmd = $db->prepare($sql);
-            $cmd->bindValue(":id", $id);
-            $cmd->bindValue(":loai", $loaiMoi);
+            $cmd->bindValue(":username", $username);
+            $cmd->bindValue(":quyen", $quyen);
             $cmd->execute();
         } catch (PDOException $e) {
             $error_message = $e->getMessage();
@@ -230,14 +235,15 @@ class NGUOIDUNG
     }
 
     // Khóa / Mở khóa người dùng
-    public function thayDoiTrangThai($id, $trangthaiMoi) {
+    public function thayDoiTrangThai($username, $trangthaiMoi) {
         $db = DATABASE::connect();
         try {
-            // Cần có username để cập nhật bảng TaiKhoan
-            $sql = "UPDATE TaiKhoan SET TinhTrang=:trangthai WHERE Username=(SELECT Email FROM NhanVien WHERE MaNV=:id)";
+            // Chuyển đổi số sang text
+            $tinhtrang = ($trangthaiMoi == 1) ? 'Hoạt động' : 'Khóa';
+            $sql = "UPDATE TaiKhoan SET TinhTrang=:tinhtrang WHERE Username=:username";
             $cmd = $db->prepare($sql);
-            $cmd->bindValue(":id", $id);
-            $cmd->bindValue(":trangthai", $trangthaiMoi);
+            $cmd->bindValue(":username", $username);
+            $cmd->bindValue(":tinhtrang", $tinhtrang);
             $cmd->execute();
         } catch (PDOException $e) {
             $error_message = $e->getMessage();
