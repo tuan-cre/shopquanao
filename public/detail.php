@@ -23,22 +23,30 @@
             </div>
             <div class="action row">
                 <hr>
-                <div class="size-selector">
-                    <input type="radio" id="size-s" name="size" value="S">
-                    <label for="size-s">S</label>
+                <form method="get" action="index.php">
+                    <input type="hidden" name="action" value="chovaogio">
+                    <input type="hidden" name="id" value="<?php echo $mhct['MaSP']; ?>">
+                    <div class="size-selector">
+                        <input type="radio" id="size-s" name="size" value="S">
+                        <label for="size-s">S</label>
 
-                    <input type="radio" id="size-m" name="size" value="M">
-                    <label for="size-m">M</label>
+                        <input type="radio" id="size-m" name="size" value="M">
+                        <label for="size-m">M</label>
 
-                    <input type="radio" id="size-l" name="size" value="L">
-                    <label for="size-l">L</label>
+                        <input type="radio" id="size-l" name="size" value="L">
+                        <label for="size-l">L</label>
 
-                    <input type="radio" id="size-xl" name="size" value="XL">
-                    <label for="size-xl">XL</label>
-                </div>
+                        <input type="radio" id="size-xl" name="size" value="XL">
+                        <label for="size-xl">XL</label>
+                    </div>
 
-                <input type="number" min="1" value="1" class="w-25 ms-3" />
-                <button class="btn btn-primary col-md-5 mt-3 mt-md-0 ms-md-3">Thêm vào giỏ hàng</button>
+                    <div class="d-flex align-items-center mt-3">
+                        <input type="number" name="soluong" min="1" value="1" class="form-control w-25 me-3" />
+                        <button type="submit" class="btn btn-primary flex-grow-1">
+                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </form>
                 <hr class="mt-4">
             </div>
             <span> Thể loại: <a href="" class="text-decoration-none">Quần áo</a></span><br />

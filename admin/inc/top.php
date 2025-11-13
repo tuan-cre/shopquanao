@@ -38,7 +38,7 @@
 					</li>
 
 					<?php if (isset($_SESSION["nguoidung"]) && $_SESSION["nguoidung"]["loai"] == 1) { ?>
-						<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlnguoidung") != false)
+						<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlnguoidung") !== false)
 							echo "active"; ?>">
 							<a class="sidebar-link" href="../qlnguoidung/index.php">
 								<i class="align-middle" data-feather="users"></i> <span class="align-middle">Quản lý
@@ -47,23 +47,27 @@
 						</li>
 					<?php } ?>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "saoluu") !== false)
+						echo "active"; ?>">
 						<a class="sidebar-link" href="../saoluu/index.php">
 							<i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Sao lưu phục hồi</span>
-						</a> 
+						</a>
+					</li>
 
 					<li class="sidebar-header text-info">
 						DANH MỤC
 					</li>
 
-					<li class="sidebar-item  active">
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qldanhmuc") !== false)
+						echo "active"; ?>">
 						<a class="sidebar-link" href="../qldanhmuc/index.php">
 							<i class="align-middle" data-feather="grid"></i> <span class="align-middle">Quản lý danh
 								mục</span>
 						</a>
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlmathang") !== false)
+						echo "active"; ?>">
 						<a class="sidebar-link" href="../qlmathang/index.php">
 							<i class="align-middle" data-feather="package"></i> <span class="align-middle">Quản lý hàng
 								hóa</span>
@@ -74,7 +78,7 @@
 						TỔ CHỨC
 					</li>
 
-					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlcuahang") != false)
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlcuahang") !== false)
 						echo "active"; ?>">
 						<a class="sidebar-link" href="../qlcuahang/index.php">
 							<i class="align-middle" data-feather="home"></i> <span class="align-middle">Quản lý cửa
@@ -82,7 +86,7 @@
 						</a>
 					</li>
 
-					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlnhanvien") != false)
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlnhanvien") !== false)
 						echo "active"; ?>">
 						<a class="sidebar-link" href="../qlnhanvien/index.php">
 							<i class="align-middle" data-feather="user-check"></i> <span class="align-middle">Quản lý
@@ -94,7 +98,8 @@
 						KINH DOANH
 					</li>
 
-					<li class="sidebar-item">
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlkhachhang") !== false)
+						echo "active"; ?>">
 						<a class="sidebar-link" href="../qlkhachhang/index.php">
 							<i class="align-middle" data-feather="users"></i> <span class="align-middle">Quản lý khách
 								hàng</span>
