@@ -1,91 +1,152 @@
 <?php include("inc/top.php"); ?>
-    
-  <div class="row">
-    <div class="col-sm-9">  
-      <h3 class="text-info">
-        <?= $mhct['tenmathang'] ?>
-      </h3>
-      <div>
-        <img src="../<?= $mhct['hinhanh'] ?>" alt="<?= $mhct['tenmathang'] ?>" />
-      </div>
-      <div>
-        <h4 class="text-primary">Giá bán: 
-          <span class="text-danger"><?= $mhct['giaban'] ?> đ</span>
-        </h4>
-        <form method="post" class="form-inline">
-          <input type="hidden" name="action" value="chovaogio">
-          <input type="hidden" name="id" value="<?= $mhct['id'] ?>">
-          <div class="row">
-            <div class="col">
-              <input type="number" class="form-control" name="soluong" value="1">
+<div class="detail-product px-lg-5">
+    <div class="d-flex flex-md-row flex-column mb-5">
+        <div class="product-image me-4">
+            <img id="main-img" src="../images/products/dieu_tra_chi_tiet.jpg" alt="Áo nỉ màu xám" />
+            <div class="img-more d-flex justify-content-between mt-3">
+                <img class="img-item" src="../images/products/helmet.jpg" alt="Áo nỉ màu xám" />
+                <img class="img-item" src="../images/products/dieu_tra_chi_tiet.jpg" alt="Áo sơ mi trắng" />
+                <img class="img-item" src="../images/products/helmet2.jpg" alt="Quần jean xanh" />
+                <img class="img-item" src="../images/products/dieu_tra_chi_tiet.jpg" alt="Váy hoa nhí" />
             </div>
-            <div class="col">
-              <input type="submit" class="btn btn-primary" value="Chọn mua">
+        </div>
+        <div class="product-description">
+            <div class="detail">
+                <h4>Tên thể loại</h4>
+                <h2 class="fw-bold">Tên sản phẩm </h2>
+                <h3>Giá bán: 100000VND</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Pariatur aliquam consequuntur facere praesentium dolore eligendi ipsum quasi.
+                    Possimus ipsum mollitia perspiciatis maiores ad accusantium aperiam incidunt impedit
+                    minima? Molestiae, amet?
+                </p>
             </div>
-          </div>		
-        </form>  	  
-  	  </div>
+            <div class="action row">
+                <hr>
+                <div class="size-selector">
+                    <input type="radio" id="size-s" name="size" value="S">
+                    <label for="size-s">S</label>
 
-      <div>
-        <h4 class="text-primary">Mô tả sản phẩm: </h4>
-        <p><?= $mhct['mota'] ?></p>
-      </div>
+                    <input type="radio" id="size-m" name="size" value="M">
+                    <label for="size-m">M</label>
 
-      <br>
+                    <input type="radio" id="size-l" name="size" value="L">
+                    <label for="size-l">L</label>
+
+                    <input type="radio" id="size-xl" name="size" value="XL">
+                    <label for="size-xl">XL</label>
+                </div>
+
+                <input type="number" min="1" value="1" class="w-25 ms-3" />
+                <button class="btn btn-primary col-md-5 mt-3 mt-md-0 ms-md-3">Thêm vào giỏ hàng</button>
+                <hr class="mt-4">
+            </div>
+            <span> Thể loại: <a href="" class="text-decoration-none">Quần áo</a></span><br />
+        </div>
     </div>
-
-    <div class="col-sm-3"> 
-      <h3 class="text-warning">Cùng danh mục:</h3>
-      <div style="height: 300px">
-        <marquee direction="up" onmouseover="stop()" onmouseout="start()">
-        <?php
-            foreach($mathang as $mh): 
-                if($mh['id'] != $mhct['id']): ?>
-                    <div>
-                        <div class="col mb-5">
-                            <div class="card h-100 shadow">
-                                <!-- Sale badge-->
-                                <?php if($mh['giaban'] != $mh['giagoc']) {?>            
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
-                                <?php } ?>
-                                <!-- Product image-->
-                                <a href="?action=detail&id=<?= $mh['id'] ?>">
-                                    <img class="card-img-top" src="../<?= $mh['hinhanh'] ?>" alt="<?= $mh['tenmathang'] ?>" />
-                                </a>
-                                <!-- Product details-->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <a class="text-decoration-none" href="?action=detail&id=<?=$mh['id']; ?>"><h5 class="fw-bolder text-info"><?php echo $mh['tenmathang'] ?></h5></a>
-                                        <!-- Product reviews-->
-                                        <div class="d-flex justify-content-center small text-warning mb-2">
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                            <div class="bi-star-fill"></div>
-                                        </div>
-                                        <!-- Product price-->
-                                        <?php if($mh['giaban'] != $mh['giagoc']) {?>
-                                            <span class="text-muted text-decoration-line-through"><?php echo $mh['giagoc'] ?>đ</span>
-                                        <?php } ?>
-                                        <span class="text-danger fw-bolder"><?php echo $mh['giaban'] ?>đ</span>
-                                    </div>
-                                </div>
-                                <!-- Product actions-->
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-info mt-auto" href="#">Chọn mua</a></div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="product-detail-tab mt-5">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#menu1">Mô tả sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#menu2">Thông số</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#menu3">Đánh giá</a>
+            </li>
+        </ul>
+        <div class="tab-content p-3 border border-top-0">
+            <div id="menu1" class="container tab-pane active"><br>
+                <h4>Mô tả sản phẩm</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Pariatur aliquam consequuntur facere praesentium dolore eligendi ipsum quasi.
+                    Possimus ipsum mollitia perspiciatis maiores ad accusantium aperiam incidunt impedit
+                    minima? Molestiae, amet?
+                </p>
+            </div>
+            <div id="menu2" class="container tab-pane "><br>
+                <h4>Thông số kỹ thuật</h4>
+                <ul class="list-unstyled">
+                    <li>Chất liệu: Cotton</li>
+                    <li>Màu sắc: Xám</li>
+                    <li>Kích cỡ: S, M, L, XL</li>
+                </ul>
+            </div>
+            <div id="menu3" class="container tab-pane "><br>
+                <h4>Đánh giá</h4>
+                <p>Chưa có đánh giá nào</p>
+            </div>
+        </div>
+    </div>
+    <div class="related-products mt-5">
+        <h3 class="mb-4">Sản phẩm liên quan</h3>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="../images/products/ao_so_mi_trang.jpg" class="card-img-top" alt="Áo sơ mi trắng">
+                    <div class="card-body">
+                        <h5 class="card-title">Áo sơ mi trắng</h5>
+                        <p class="card-text text-danger fw-bold">150000 VND</p>
                     </div>
-                <?php endif; ?>
-            <?php endforeach; ?>            
-        </marquee>
-      </div>
-    </div>    
-  </div>
-  
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="../images/products/an_may.jpg" class="card-img-top" alt="Áo sơ mi trắng">
+                    <div class="card-body">
+                        <h5 class="card-title">Áo sơ mi trắng</h5>
+                        <p class="card-text text-danger fw-bold">150000 VND</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="../images/products/an_may.jpg" class="card-img-top" alt="Áo sơ mi trắng">
+                    <div class="card-body">
+                        <h5 class="card-title">Áo sơ mi trắng</h5>
+                        <p class="card-text text-danger fw-bold">150000 VND</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="Áo sơ mi trắng">
+                    <div class="card-body">
+                        <h5 class="card-title">Áo sơ mi trắng</h5>
+                        <p class="card-text text-danger fw-bold">150000 VND</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mainImg = document.getElementById("main-img");
+            const thumbnails = document.querySelectorAll(".img-item");
 
+            thumbnails.forEach(img => {
+                img.addEventListener("click", function() {
+                    mainImg.style.opacity = 0;
+                    setTimeout(() => {
+                        mainImg.src = this.src;
+                        mainImg.style.opacity = 1;
+                    }, 200);
 
-<?php include("inc/bottom.php"); ?>
+                    thumbnails.forEach(i => i.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const productSection = document.querySelector(".detail-product");
+            if (productSection) {
+                productSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        });
+    </script>
+
+    <?php include("inc/bottom.php"); ?>

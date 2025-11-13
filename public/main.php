@@ -1,6 +1,7 @@
 <?php
     include("inc/top.php");
 ?>
+<a class="btn btn-info" href="detail.php">Xem chi tiết</a>
 
 <?php foreach($danhmuc as $dm): 
     $i = 0;  ?>
