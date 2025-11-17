@@ -14,12 +14,8 @@
             <div class="detail">
                 <h4>Tên thể loại</h4>
                 <h2 class="fw-bold">Tên sản phẩm </h2>
-                <h3>Giá bán: 100000VND</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Pariatur aliquam consequuntur facere praesentium dolore eligendi ipsum quasi.
-                    Possimus ipsum mollitia perspiciatis maiores ad accusantium aperiam incidunt impedit
-                    minima? Molestiae, amet?
-                </p>
+                <h3>Giá gốc: 100000VND</h3>
+                <h3>Giá bán: 90000VND</h3>                
             </div>
             <div class="action row">
                 <hr>
@@ -56,12 +52,9 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#menu1">Mô tả sản phẩm</a>
-            </li>
+            </li>            
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu2">Thông số</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu3">Đánh giá</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#menu2">Đánh giá</a>
             </li>
         </ul>
         <div class="tab-content p-3 border border-top-0">
@@ -74,14 +67,6 @@
                 </p>
             </div>
             <div id="menu2" class="container tab-pane "><br>
-                <h4>Thông số kỹ thuật</h4>
-                <ul class="list-unstyled">
-                    <li>Chất liệu: Cotton</li>
-                    <li>Màu sắc: Xám</li>
-                    <li>Kích cỡ: S, M, L, XL</li>
-                </ul>
-            </div>
-            <div id="menu3" class="container tab-pane "><br>
                 <h4>Đánh giá</h4>
                 <p>Chưa có đánh giá nào</p>
             </div>
