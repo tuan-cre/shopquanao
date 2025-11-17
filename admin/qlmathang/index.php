@@ -29,7 +29,7 @@ switch($action){
 		include("addform.php");
         break;
 	case "xulythem":	
-
+        
 		$ten_file_goc = basename($_FILES["filehinhanh"]["name"]);
 		$ten_file_sach = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", $ten_file_goc);
 		$hinhanh = "images/products/" . $ten_file_sach;

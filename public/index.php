@@ -9,10 +9,12 @@ if (!isset($_SESSION['cart'])) {
 require("../model/database.php");
 require("../model/danhmuc.php");
 require("../model/mathang.php");
+require("../model/sukien.php"); // Thêm model sự kiện
 
 $dm = new DANHMUC();
 $danhmuc = $dm->laydanhmuc();
 $mh = new MATHANG();
+$sk = new SUKIEN(); // Tạo đối tượng sự kiện
 
 // Hàm đếm hàng trong giỏ
 function demhangtronggio() {
@@ -45,6 +47,16 @@ switch($action){
     case "null":
         // Trang chủ - hiển thị sản phẩm
         $mathang = $mh->laymathang();
+        $sukien_hientai = $sk->laysukiendangdienra();
+
+        if ($sukien_hientai) {
+            $giamgia = $sukien_hientai['GiamGia'];
+            foreach ($mathang as &$sp) { 
+                $sp['GiaGoc'] = $sp['GiaBan'];
+                $sp['GiaBan'] = $sp['GiaGoc'] * (1 - $giamgia / 100);
+            }
+            unset($sp);
+        }
         include("main.php");
         break;
         

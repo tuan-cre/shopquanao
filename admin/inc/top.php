@@ -121,13 +121,11 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="">
+						<a class="sidebar-link" href="../qlsukien/index.php">
 							<i class="align-middle" data-feather="shopping-bag"></i> <span class="align-middle">Chương
 								trình khuyến mãi</span>
 						</a>
 					</li>
-
-
 
 					<li class="sidebar-header text-info">
 						CẤU HÌNH WEBSITE

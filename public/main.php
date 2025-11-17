@@ -63,11 +63,11 @@
     <h3>
         <a class="text-decoration-none" href="?action=group&id=<?= $dm['MaDM']; ?>"><?= $dm['TenDanhMuc']; ?></a>
     </h3>
-
+    
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
         <?php foreach($products_slice as $mh_item): ?>
             <div class="col mb-5">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm d-flex flex-column">
                         <?php 
                             if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?> 
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
@@ -75,7 +75,7 @@
                             <a href="?action=detail&id=<?php echo $mh_item['MaSP'] ?>">
                             <img class="card-img-top" src="../<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
                         </a>
-                        <div class="card-body p-4">
+                        <div class="card-body p-4 flex-grow-1">
                             <div class="text-center">
                                 <a class="text-decoration-none" href="?action=detail&id=<?= $mh_item['MaSP']; ?>">
                                     <h5 class="fw-bolder card-title"><?= $mh_item['TenSP']; ?></h5>
@@ -87,31 +87,32 @@
                                     <div class="bi-star-fill"></div>
                                     <div class="bi-star-fill"></div>
                                 </div>
-                                <?php 
-                                    if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?>
-                                        <span class="text-muted text-decoration-line-through"><?= number_format($mh_item['GiaGoc']) ; ?> đ</span>
-                                <?php } ?>
-                                    <span class="text-danger fw-bolder card-text"><?= number_format($mh_item['GiaBan'])?> đ</span> 
                             </div>
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                            <div class="mb-2">
+                                <?php if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?>
+                                    <span class="text-muted text-decoration-line-through"><?= number_format($mh_item['GiaGoc']) ; ?> đ</span>
+                                <?php } ?>
+                                <span class="text-danger fw-bolder card-text"><?= number_format($mh_item['GiaBan'])?> đ</span>
+                            </div>
                             <a class="btn btn-outline-dark-custom mt-auto" href="#">Chọn mua</a>
                         </div>
                     </div>
             </div>
         <?php endforeach; ?>
-
-        <?php if ($total_products > 4): ?>
+        <!-- Sản phẩm ẩn (nếu có) -->
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center more-products" id="more-products-<?= $dm['MaDM']; ?>" style="display: none;">
             <?php foreach($more_products_slice as $mh_item): ?>
-                <div class="col mb-5 more-products-item-<?= $dm['MaDM']; ?>" style="display: none;">
-                    <div class="card h-100 shadow-sm">
+                <div class="col mb-5">
+                    <div class="card h-100 shadow-sm d-flex flex-column">
                         <?php if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?>
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
                         <?php } ?>
                         <a href="?action=detail&id=<?php echo $mh_item['MaSP'] ?>">
                             <img class="card-img-top" src="../<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
                         </a>
-                        <div class="card-body p-4">
+                        <div class="card-body p-4 flex-grow-1">
                             <div class="text-center">
                                 <a class="text-decoration-none" href="?action=detail&id=<?= $mh_item['MaSP']; ?>">
                                     <h5 class="fw-bolder card-title"><?= $mh_item['TenSP']; ?></h5>
@@ -119,24 +120,26 @@
                                 <div class="d-flex justify-content-center small text-warning mb-2">
                                     <div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div><div class="bi-star-fill"></div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                             <div class="mb-2">
                                 <?php if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?>
                                     <span class="text-muted text-decoration-line-through"><?= number_format($mh_item['GiaGoc']) ; ?> đ</span>
                                 <?php } ?>
                                 <span class="text-danger fw-bolder card-text"><?= number_format($mh_item['GiaBan'])?> đ</span>
                             </div>
-                        </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
-                            <a class="btn btn-outline-dark-custom mt-auto" href="#">Chọn mua</a>
+                            <a class="btn btn-outline-dark-custom" href="#">Chọn mua</a>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php endif; ?>
+        </div>
     </div>
 
     <?php if ($total_products > 4): ?>
         <div class="text-center mb-5">
-            <button class="btn btn-outline-primary btn-xem-them" data-target-class="more-products-item-<?= $dm['MaDM']; ?>">
+            <button class="btn btn-outline-primary btn-xem-them" data-target="#more-products-<?= $dm['MaDM']; ?>">
                 Xem thêm <i class="bi bi-chevron-down"></i>
             </button>
         </div>
@@ -156,13 +159,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const seeMoreButtons = document.querySelectorAll('.btn-xem-them');
     seeMoreButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const targetClass = this.getAttribute('data-target-class'); 
-            const moreProducts = document.querySelectorAll(`.${targetClass}`); 
-            
-            if (moreProducts.length > 0) {
-                moreProducts.forEach(product => {
-                    product.style.display = 'block'; 
-                });
+            const targetSelector = this.getAttribute('data-target');
+            const moreProducts = document.querySelector(targetSelector);
+            if (moreProducts) {
+                moreProducts.style.display = 'flex'; // hoặc 'block' tùy thuộc vào layout
                 this.style.display = 'none';
             }
         });
