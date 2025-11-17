@@ -138,6 +138,23 @@ class MATHANG
         }
     }
 
+    public function laymathangvuathem()
+    {
+        $db = DATABASE::connect();
+        try {
+            $sql = "SELECT MaSP FROM SanPham ORDER BY MaSP DESC LIMIT 1";
+            $cmd = $db->prepare($sql);
+            $cmd->execute();
+            $maSP = $cmd->fetchColumn();
+            $cmd->closeCursor();
+            return $maSP;
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
     public function laymathangtheodanhmuc($danhMuc_id)
     {
         $db = DATABASE::connect();
@@ -162,14 +179,13 @@ class MATHANG
         $dbcon = DATABASE::connect();
         try {
             // Bảng SanPham không có mota, soluongton, luotxem, luotmua
-            $sql = "INSERT INTO SanPham(TenSP, GiaGoc, GiaBan, MaDM, HinhAnh)
-                    VALUES(:tensp, :giagoc, :giaban, :madm, :hinhanh)";
+            $sql = "INSERT INTO SanPham(TenSP, GiaGoc, GiaBan, MaDM)
+                    VALUES(:tensp, :giagoc, :giaban, :madm)";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":tensp", $mathang->getTenMatHang());
             $cmd->bindValue(":giagoc", $mathang->getGiaGoc());
             $cmd->bindValue(":giaban", $mathang->getGiaBan());
             $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
-            $cmd->bindValue(":hinhanh", $mathang->getHinhAnh());
             $result = $cmd->execute();
             return $result;
         } catch (PDOException $e) {
@@ -215,6 +231,23 @@ class MATHANG
             $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
             $cmd->bindValue(":hinhanh", $mathang->getHinhAnh());
             $cmd->bindValue(":id", $mathang->getId());
+            $result = $cmd->execute();
+            return $result;
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+    public function capNhatHinhAnh($id, $hinhanh)
+    {
+        $dbcon = DATABASE::connect();
+        try {
+            $sql = "UPDATE SanPham SET HinhAnh=:hinhanh WHERE MaSP=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":hinhanh", $hinhanh);
+            $cmd->bindValue(":id", $id);
             $result = $cmd->execute();
             return $result;
         } catch (PDOException $e) {
