@@ -21,6 +21,10 @@
 		<input class="form-control" type="text" name="txttenmathang" placeholder="Nhập tên" required>
 	</div>
 	<div class="mb-3 mt-3">
+		<label for="txtmota" class="form-label">Mô tả</label>
+		<input class="form-control" type="text" name="txtmota" placeholder="Nhập mô tả" required>
+	</div>
+	<div class="mb-3 mt-3">
 		<label for="txtgianhap" class="form-label">Giá nhập</label>
 		<input class="form-control" type="number" name="txtgianhap" value="0">
 	</div>

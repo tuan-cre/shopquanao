@@ -9,11 +9,13 @@ if (!isset($_SESSION['cart'])) {
 require("../model/database.php");
 require("../model/danhmuc.php");
 require("../model/mathang.php");
+require("../model/hinhanhsanpham.php");
 require("../model/sukien.php"); // Thêm model sự kiện
 
 $dm = new DANHMUC();
 $danhmuc = $dm->laydanhmuc();
 $mh = new MATHANG();
+$ha = new HINHANHSANPHAM();
 $sk = new SUKIEN(); // Tạo đối tượng sự kiện
 
 // Hàm đếm hàng trong giỏ
@@ -85,6 +87,9 @@ switch($action){
                 $madm = $mhct["MaDM"];
                 $mathang = $mh->laymathangtheodanhmuc($madm);
             }
+            $dsHinhAnh = $ha->layTatCaHinhAnhTheoMaSP($mahang);
+            $dsSPLienQuan = $mh->laymathangtheodanhmuc($mhct['MaDM']);
+            $tenDM = $dm->laytendanhmuctheoMaSP($mhct['MaDM']);
             include("detail.php");
         }
         break;

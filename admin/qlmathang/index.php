@@ -39,6 +39,7 @@ switch ($action) {
         $mathanghh->setgiagoc($_POST["txtgianhap"]);
         $mathanghh->setgiaban($_POST["txtgiaban"]);
         $mathanghh->setdanhmuc_id($_POST["optdanhmuc"]);
+        $mathanghh->setMoTa($_POST['txtmota']);
 
         // Thêm mặt hàng vào CSDL
         $mh->themmathang($mathanghh);
@@ -124,6 +125,7 @@ switch ($action) {
         $mathanghh->settenmathang($_POST["txttenhang"]);
         $mathanghh->setgiagoc($_POST["txtgiagoc"]);
         $mathanghh->setgiaban($_POST["txtgiaban"]);
+        $mathanghh->setMoTa($_POST['txtmota']);
 
         // Nếu có upload ảnh chính mới (input name="hinhanh")
         if (isset($_FILES["hinhanh"]) && !empty($_FILES["hinhanh"]["name"])) {

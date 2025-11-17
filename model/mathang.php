@@ -159,7 +159,7 @@ class MATHANG
     {
         $db = DATABASE::connect();
         try {
-            $sql = "SELECT * FROM SanPham WHERE MaDM = :danhMuc_id";
+            $sql = "SELECT * FROM SanPham WHERE MaDM = :danhMuc_id LIMIT 4";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(':danhMuc_id', $danhMuc_id);
             $cmd->execute();
@@ -179,13 +179,15 @@ class MATHANG
         $dbcon = DATABASE::connect();
         try {
             // Bảng SanPham không có mota, soluongton, luotxem, luotmua
-            $sql = "INSERT INTO SanPham(TenSP, GiaGoc, GiaBan, MaDM)
-                    VALUES(:tensp, :giagoc, :giaban, :madm)";
+            $sql = "INSERT INTO SanPham(TenSP, GiaGoc, GiaBan, MoTa, MaDM)
+                    VALUES(:tensp, :giagoc, :giaban, :mota, :madm)";
             $cmd = $dbcon->prepare($sql);
             $cmd->bindValue(":tensp", $mathang->getTenMatHang());
             $cmd->bindValue(":giagoc", $mathang->getGiaGoc());
             $cmd->bindValue(":giaban", $mathang->getGiaBan());
             $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
+            $cmd->bindValue(":mota", $mathang->getMoTa());
+            
             $result = $cmd->execute();
             return $result;
         } catch (PDOException $e) {
@@ -222,6 +224,7 @@ class MATHANG
                                         GiaGoc=:giagoc,
                                         GiaBan=:giaban,
                                         MaDM=:madm,
+                                        MoTa=:mota,
                                         HinhAnh=:hinhanh
                                     WHERE MaSP=:id";
             $cmd = $dbcon->prepare($sql);
@@ -230,6 +233,7 @@ class MATHANG
             $cmd->bindValue(":giaban", $mathang->getGiaBan());
             $cmd->bindValue(":madm", $mathang->getDanhMuc_Id());
             $cmd->bindValue(":hinhanh", $mathang->getHinhAnh());
+            $cmd->bindValue(":mota", $mathang->getMoTa());
             $cmd->bindValue(":id", $mathang->getId());
             $result = $cmd->execute();
             return $result;

@@ -81,6 +81,23 @@ class DANHMUC{
         }
     }
 
+    public function laytendanhmuctheoMaSP($id) {
+         $dbcon = DATABASE::connect();
+        try{
+            $sql = "SELECT * FROM DanhMuc WHERE MaDM=:id";
+            $cmd = $dbcon->prepare($sql);
+            $cmd->bindValue(":id", $id);
+            $cmd->execute();
+            $result = $cmd->fetch();             
+            return $result;
+        }
+        catch(PDOException $e){
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
     // Thêm danh mục
     public function themdanhmuc($danhmucmoi){
         $dbcon = DATABASE::connect();

@@ -16,6 +16,10 @@
 			<label>Tên hàng</label>
 			<input class="form-control" type="text" name="txttenhang" required value="<?php echo $m["TenSP"]; ?>">
 		</div>
+		<div class="my-3">
+			<label>Mô tả</label>
+			<textarea class="form-control" name="txtmota" required><?php echo $m["MoTa"]; ?></textarea>
+		</div>
 		<!-- Các trường mota, soluongton, luotxem, luotmua không có trong bảng SanPham -->
 		<div class="my-3">
 			<label>Giá gốc</label>
@@ -51,8 +55,8 @@
 			<input id="upload" class="form-control" type="file" name="filehinhanh[]" multiple accept="image/*">
 			<script>
 				document.getElementById('upload').addEventListener('change', function(e) {
-					if (this.files.length > 3) {
-						alert('Chỉ được chọn tối đa 3 ảnh!');
+					if (this.files.length > 4) {
+						alert('Chỉ được chọn tối đa 4 ảnh!');
 						this.value = '';
 					}
 				});
