@@ -45,6 +45,12 @@ else{
 }
 
 switch($action){
+    case "dangnhap":
+        include("login.php");
+        break;
+    case "dangky":
+        include("register.php");
+        break;
     case "trangchu":
     case "null":
         // Trang chủ - hiển thị sản phẩm
