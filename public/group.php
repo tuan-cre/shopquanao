@@ -41,7 +41,7 @@
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-info mt-auto" href="#">Chọn mua</a></div>
+                        <div class="text-center"><a class="btn btn-outline-info mt-auto" href="index.php?action=giohang&id=<?= $mh['id']; ?>">Chọn mua</a></div>
                     </div>
                 </div>
             </div>
