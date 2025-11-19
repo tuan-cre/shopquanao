@@ -42,16 +42,16 @@
                         <a href="index.php?action=giohang" class="btn btn-outline-light position-relative">
                             <i class="bi bi-cart-fill me-1"></i>
                             Giỏ hàng
-                            <?php 
+                            <?php
                             $cartCount = 0;
                             if (isset($_SESSION['cart'])) {
                                 $cartCount = array_sum($_SESSION['cart']);
                             }
-                            if ($cartCount > 0): 
+                            if ($cartCount > 0):
                             ?>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                <?php echo $cartCount; ?>
-                            </span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    <?php echo $cartCount; ?>
+                                </span>
                             <?php endif; ?>
                         </a>
                     </div>
@@ -60,13 +60,19 @@
                     <div class="dropdown align-items-center">
                         <a class="dropdown-toggle me-3 text-decoration-none" href="#"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> Khách hàng
+                            <i class="bi bi-person-circle"></i> <?php
+                                                                if (isset($_SESSION['user'])) {
+                                                                    echo $_SESSION['user']['HoTen'];
+                                                                } else {
+                                                                    echo "Khách hàng";
+                                                                }
+                                                                ?>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item " href="#">Thông tin</a></li>
                             <li><a class="dropdown-item " href="index.php?action=giohang">Giỏ hàng</a></li>
                             <li><a class="dropdown-item " href="#!">Đổi mật khẩu</a></li>
-                            <li><a class="dropdown-item " href="#!">Đăng xuất</a></li>
+                            <li><a class="dropdown-item " href="index.php?action=dangxuat">Đăng xuất</a></li>
                         </ul>
                     </div>
                 </div>
@@ -85,7 +91,7 @@
         <div class="content d-flex flex-column justify-content-center align-items-start px-5 mb-4 h-100">
             <h1 class="fw-bold text-white">Chào mừng đến với Shop UNI</h1>
             <p class="fw-bold"> No rules. No gender. Just UNI <br>
-                                Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
+                Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
             <div class="row">
                 <div class="col-auto me-2">
                     <a href="index.php?action=dangnhap"><button class="btn btn-info"> Đăng nhập</button></a>
@@ -98,4 +104,3 @@
     </header>
     <!-- Section-->
     <section class="py-5">
-        

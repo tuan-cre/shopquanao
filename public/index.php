@@ -20,6 +20,7 @@ $danhmuc = $dm->laydanhmuc();
 $mh = new MATHANG();
 $taikhoan = new TAIKHOAN();
 $ha = new HINHANHSANPHAM();
+$kh = new KHACHHANG();
 $sk = new SUKIEN(); // Tạo đối tượng sự kiện
 
 // Hàm đếm hàng trong giỏ
@@ -55,6 +56,12 @@ switch ($action) {
         break;
     case "dangky":
         include("register.php");
+        break;
+    case "dangxuat":
+        // Đăng xuất
+        session_unset();
+        session_destroy();
+        echo '<script>alert("Đăng xuất thành công!"); window.location="index.php";</script>';
         break;
     case "dangky_process":
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -92,7 +99,6 @@ switch ($action) {
             }
         }
         break;
-
     case "dangnhap_process":
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (
@@ -105,10 +111,11 @@ switch ($action) {
                 $username = trim($_POST['username']);
                 $password = trim($_POST['password']);
 
-                $user = $taikhoan->kiemtrataikhoanhople($username, md5($password));
-                if ($user) {
+                $islogin = $taikhoan->kiemtrataikhoanhople($username, md5($password));
+                if ($islogin) {
                     // Lưu thông tin người dùng vào session
-                    $_SESSION['user'] = $user;
+                    $user = $kh->layKhachHangTheoUsername($username);
+                    $_SESSION['user']['HoTen'] = $user['HoTen'];
                     echo '<script>alert("Đăng nhập thành công!"); window.location="index.php";</script>';
                 } else {
                     echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=trangchu";</script>';

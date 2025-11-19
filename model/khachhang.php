@@ -105,8 +105,8 @@ class KhachHang
     {
         try {
             $db = DATABASE::connect();
-            $sql = "INSERT INTO KhachHang (HoTen, DiaChi, SoDT, Email, GioiTinh, NgaySinh, DiemThuong) 
-                    VALUES (:hoTen, :diaChi, :soDienThoai, :email, :gioiTinh, :namSinh, :diemThuong)";
+            $sql = "INSERT INTO KhachHang (HoTen, DiaChi, SoDT, Email, GioiTinh, NgaySinh, DiemThuong, Username) 
+                    VALUES (:hoTen, :diaChi, :soDienThoai, :email, :gioiTinh, :namSinh, :diemThuong, :username)";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':hoTen', $khachhang->hoTen);
             $stmt->bindParam(':diaChi', $khachhang->diaChi);
@@ -115,10 +115,26 @@ class KhachHang
             $stmt->bindParam(':gioiTinh', $khachhang->gioiTinh);
             $stmt->bindParam(':namSinh', $khachhang->namSinh);
             $stmt->bindParam(':diemThuong', $khachhang->diemThuong);
+            $stmt->bindParam(':username', $khachhang->username);
             return $stmt->execute();
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
             return false;
+        }
+    }
+    // Lấy khách hàng theo username
+    public static function layKhachHangTheoUsername($username)
+    {
+        try {
+            $db = DATABASE::connect();
+            $sql = "SELECT * FROM KhachHang WHERE Username = :username";
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return null;
         }
     }
 
