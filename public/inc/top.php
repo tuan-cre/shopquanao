@@ -37,44 +37,51 @@
                         <li class="nav-item fw-bold"><a class="nav-link" href="#!">Liên hệ</a></li>
                     </ul>
 
-                    <!-- Cart button -->
-                    <div class="d-flex align-items-center me-3">
-                        <a href="index.php?action=giohang" class="btn btn-outline-light position-relative">
-                            <i class="bi bi-cart-fill me-1"></i>
-                            Giỏ hàng
-                            <?php
-                            $cartCount = 0;
-                            if (isset($_SESSION['cart'])) {
-                                $cartCount = array_sum($_SESSION['cart']);
-                            }
-                            if ($cartCount > 0):
-                            ?>
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    <?php echo $cartCount; ?>
-                                </span>
-                            <?php endif; ?>
-                        </a>
-                    </div>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <!-- Cart button - Chỉ hiển thị khi đã đăng nhập -->
+                        <div class="d-flex align-items-center me-3">
+                            <a href="index.php?action=giohang" class="btn btn-outline-light position-relative">
+                                <i class="bi bi-cart-fill me-1"></i>
+                                Giỏ hàng
+                                <?php
+                                $cartCount = 0;
+                                if (isset($_SESSION['cart'])) {
+                                    $cartCount = array_sum($_SESSION['cart']);
+                                }
+                                if ($cartCount > 0):
+                                ?>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        <?php echo $cartCount; ?>
+                                    </span>
+                                <?php endif; ?>
+                            </a>
+                        </div>
 
-                    <!-- Info -->
-                    <div class="dropdown align-items-center">
-                        <a class="dropdown-toggle me-3 text-decoration-none" href="#"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> <?php
-                                                                if (isset($_SESSION['user'])) {
-                                                                    echo $_SESSION['user']['HoTen'];
-                                                                } else {
-                                                                    echo "Khách hàng";
-                                                                }
-                                                                ?>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item " href="#">Thông tin</a></li>
-                            <li><a class="dropdown-item " href="index.php?action=giohang">Giỏ hàng</a></li>
-                            <li><a class="dropdown-item " href="#!">Đổi mật khẩu</a></li>
-                            <li><a class="dropdown-item " href="index.php?action=dangxuat">Đăng xuất</a></li>
-                        </ul>
-                    </div>
+                        <!-- User Info - Đã đăng nhập -->
+                        <div class="dropdown align-items-center">
+                            <a class="dropdown-toggle me-3 text-decoration-none" href="#"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> <?php echo $_SESSION['user']['Username']; ?>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="index.php?action=thongtin">Thông tin</a></li>
+                                <li><a class="dropdown-item" href="index.php?action=giohang">Giỏ hàng</a></li>
+                                <li><a class="dropdown-item" href="index.php?action=doimatkhau">Đổi mật khẩu</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="index.php?action=dangxuat">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    <?php else: ?>
+                        <!-- Guest Menu - Chưa đăng nhập -->
+                        <div class="d-flex align-items-center">
+                            <a href="index.php?action=dangnhap" class="btn btn-outline-light me-2">
+                                <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                            </a>
+                            <a href="index.php?action=dangky" class="btn btn-light">
+                                <i class="bi bi-person-plus"></i> Đăng ký
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav>
@@ -89,17 +96,31 @@
 
         <!-- Content -->
         <div class="content d-flex flex-column justify-content-center align-items-start px-5 mb-4 h-100">
-            <h1 class="fw-bold text-white">Chào mừng đến với Shop UNI</h1>
+            <h1 class="fw-bold text-white">
+                <?php if (isset($_SESSION['user'])): ?>
+                    Xin chào, <?php echo $_SESSION['user']['Username']; ?>!
+                <?php else: ?>
+                    Chào mừng đến với Shop UNI
+                <?php endif; ?>
+            </h1>
             <p class="fw-bold"> No rules. No gender. Just UNI <br>
-                Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
-            <div class="row">
-                <div class="col-auto me-2">
-                    <a href="index.php?action=dangnhap"><button class="btn btn-info"> Đăng nhập</button></a>
+                Ở đây, không có "đúng" hay "sai" - Chỉ có phong cách mang tên bạn</p>
+            <?php if (!isset($_SESSION['user'])): ?>
+                <div class="row">
+                    <div class="col-auto me-2">
+                        <a href="index.php?action=dangnhap"><button class="btn btn-info"> Đăng nhập</button></a>
+                    </div>
+                    <div class="col-auto me-2">
+                        <a href="index.php?action=dangky"><button class="btn btn-info"> Đăng ký</button></a>
+                    </div>
                 </div>
-                <div class="col-auto me-2">
-                    <a href="index.php?action=dangky"><button class="btn btn-info"> Đăng ký</button></a>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-auto me-2">
+                        <a href="index.php"><button class="btn btn-success"><i class="bi bi-house-fill"></i> Mua sắm ngay</button></a>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </header>
     <!-- Section-->

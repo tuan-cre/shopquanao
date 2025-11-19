@@ -173,6 +173,12 @@ switch ($action) {
         break;
 
     case "giohang":
+        // Kiểm tra đăng nhập trước khi xem giỏ hàng
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để xem giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
         // Hiển thị giỏ hàng
         $giohang = [];
         foreach ($_SESSION['cart'] as $masp => $soluong) {
@@ -193,6 +199,12 @@ switch ($action) {
 
     case "themvaogio":
     case "chovaogio":
+        // Kiểm tra đăng nhập trước khi thêm vào giỏ
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
         // Thêm sản phẩm vào giỏ
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
@@ -231,6 +243,12 @@ switch ($action) {
         break;
 
     case "capnhatgio":
+        // Kiểm tra đăng nhập trước khi cập nhật giỏ hàng
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để cập nhật giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
         // Cập nhật số lượng từ form
         if (isset($_REQUEST['mh']) && is_array($_REQUEST['mh'])) {
             foreach ($_REQUEST['mh'] as $masp => $soluong) {
@@ -262,6 +280,12 @@ switch ($action) {
         break;
 
     case "xoagiohang":
+        // Kiểm tra đăng nhập trước khi xóa giỏ hàng
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
         // Xóa toàn bộ giỏ hàng
         $_SESSION['cart'] = [];
         // Hiển thị giỏ hàng rỗng (không redirect)
@@ -270,6 +294,12 @@ switch ($action) {
         break;
 
     case "thanhtoan":
+        // Kiểm tra đăng nhập trước khi thanh toán
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để thanh toán!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
         // Trang thanh toán
         include("checkout.php");
         break;
