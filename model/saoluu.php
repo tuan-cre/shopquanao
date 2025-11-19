@@ -93,19 +93,21 @@ class SAOLUU
 
     public function phucHoi($tenfile)
     {
-        $mysqlCmd = realpath(__DIR__ . '/../../../mysql/bin/mysql.exe');
-        $backupPath = realpath(__DIR__ . '/../public/backups/' . $tenfile);
+        $backupPath = __DIR__ . '/../public/backups/' . $tenfile;
         $dbName = 'quan_ly_ban_quan_ao';
 
         if (!file_exists($backupPath)) {
-            throw new Exception("File sao lưu không tồn tại.");
+            throw new Exception("File sao lưu không tồn tại: " . $tenfile);
         }
 
-        $command = "\"$mysqlCmd\" --user=root --password= --host=localhost $dbName < \"$backupPath\" 2>&1";
+        // Sử dụng mysql command trực tiếp trên Linux
+        $command = "mysql --user=root --password= --host=localhost $dbName < " . escapeshellarg($backupPath) . " 2>&1";
         exec($command, $output, $returnVar);
 
         if ($returnVar !== 0) {
             throw new Exception("Phục hồi thất bại: " . implode("\n", $output));
         }
+
+        return true;
     }
 }

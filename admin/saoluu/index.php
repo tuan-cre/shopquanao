@@ -6,8 +6,8 @@ if (!$_SESSION['nguoidung']) {
     exit();
 }
 
-require_once '../../Model/saoluu.php';
-require_once '../../Model/database.php';
+require_once '../../model/saoluu.php';
+require_once '../../model/database.php';
 
 if (isset($_REQUEST['action']))
     $action = $_REQUEST['action'];
