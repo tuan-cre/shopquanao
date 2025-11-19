@@ -8,21 +8,21 @@
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Sale badge-->
-                    <?php if($mh['giaban'] != $mh['giagoc']) {?>
+                    <?php if($mh['GiaBan'] != $mh['GiaGoc']) {?>
                         <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
                     <?php } ?>
 
                     <!-- Product image-->
-                    <a href="?action=detail&id=<?php echo $mh['id'] ?>">
-                        <img class="card-img-top" src="../<?php echo $mh['hinhanh'];?>" alt="<?php echo $mh['tenmathang'];?>" />
+                    <a href="?action=detail&id=<?php echo $mh['MaSP'] ?>">
+                        <img class="card-img-top" src="../images/products/<?php echo $mh['HinhAnh'];?>" alt="<?php echo $mh['TenSP'];?>" />
                     </a>
 
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- Product name-->
-                            <a class="text-decoration-none" href="?action=detail&id=<?= $mh['id'];?>">
-                                <h5 class="fw-bolder text-info"><?= $mh['tenmathang']; ?></h5>
+                            <a class="text-decoration-none" href="?action=detail&id=<?= $mh['MaSP'];?>">
+                                <h5 class="fw-bolder text-info"><?= $mh['TenSP']; ?></h5>
                             </a>                    
                             <!-- Product reviews-->
                             <div class="d-flex justify-content-center small text-warning mb-2">
@@ -33,15 +33,15 @@
                                 <div class="bi-star-fill"></div>
                             </div>
                             <!-- Product price-->
-                            <?php if($mh['giaban'] != $mh['giagoc']) {?>
-                                <span class="text-muted text-decoration-line-through"><?= $mh['giagoc'] ; ?> đ</span>
+                            <?php if($mh['GiaBan'] != $mh['GiaGoc']) {?>
+                                <span class="text-muted text-decoration-line-through"><?= number_format($mh['GiaGoc']) ; ?> đ</span>
                             <?php } ?>
-                                <span class="text-danger fw-bolder"><?= $mh['giaban']; ?> đ</span>
+                                <span class="text-danger fw-bolder"><?= number_format($mh['GiaBan']); ?> đ</span>
                         </div>
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-info mt-auto" href="index.php?action=giohang&id=<?= $mh['id']; ?>">Chọn mua</a></div>
+                        <div class="text-center"><a class="btn btn-outline-info mt-auto" href="index.php?action=chovaogio&id=<?= $mh['MaSP']; ?>">Chọn mua</a></div>
                     </div>
                 </div>
             </div>

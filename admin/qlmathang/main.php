@@ -27,7 +27,7 @@
 		<td><?php echo number_format($m["GiaBan"]); ?>đ</td>
 		<td>
 			<a href="index.php?action=chitiet&MaSP=<?php echo $m["MaSP"]; ?>">
-			<img src="../../<?php echo $m["HinhAnh"]; ?>" width="80" class="img-thumbnail"></a>
+			<img src="../../images/products/<?php echo $m["HinhAnh"]; ?>" width="80" class="img-thumbnail"></a>
 		</td>
 		<td><a class="btn btn-warning" href="index.php?action=sua&MaSP=<?php echo $m["MaSP"]; ?>"><i class="align-middle" data-feather="edit"></a></td>
 		<td><a class="btn btn-danger" href="index.php?action=xoa&MaSP=<?php echo $m["MaSP"]; ?>"><i class="align-middle" data-feather="trash-2"></a></td>

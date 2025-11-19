@@ -88,10 +88,10 @@
                                 Ở đây, không có “đúng” hay “sai” - Chỉ có phong cách mang tên bạn</p>
             <div class="row">
                 <div class="col-auto me-2">
-                    <button class="btn btn-info"> Đăng nhập</button>
+                    <a href="index.php?action=dangnhap"><button class="btn btn-info"> Đăng nhập</button></a>
                 </div>
                 <div class="col-auto me-2">
-                    <button class="btn btn-info"> Đăng ký</button>
+                    <a href="index.php?action=dangky"><button class="btn btn-info"> Đăng ký</button></a>
                 </div>
             </div>
         </div>
