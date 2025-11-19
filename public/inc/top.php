@@ -28,10 +28,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fw-bold" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Danh mục sản phẩm</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <!-- <?php foreach ($danhmuc as $d): ?>
-                                    <li><a class="dropdown-item" href="?action=group&id=<?php echo $d["id"]; ?>">
-                                        <?php echo $d["tendanhmuc"]; ?></a></li>
-                                <?php endforeach; ?> -->
+                                <?php foreach ($danhmuc as $d): ?>
+                                    <li><a class="dropdown-item" href="?action=group&id=<?php echo $d["MaDM"]; ?>">
+                                        <?php echo $d["TenDanhMuc"]; ?></a></li>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
                         <li class="nav-item fw-bold"><a class="nav-link" href="#!">Liên hệ</a></li>
