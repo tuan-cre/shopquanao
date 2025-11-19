@@ -159,7 +159,7 @@ CREATE TABLE CTPhieuXuat (
 CREATE TABLE DonHang (
     MaDonHang INT PRIMARY KEY AUTO_INCREMENT,
     MaKhachHang INT,
-    TrangThai ENUM('Chờ xác nhận', 'Đang giao', 'Hoàn tất', 'Hủy'),
+    TrangThai INT,
     FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang) ON DELETE CASCADE
 );
 
