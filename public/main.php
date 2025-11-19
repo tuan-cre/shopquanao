@@ -73,7 +73,7 @@
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
                         <?php } ?>
                             <a href="?action=detail&id=<?php echo $mh_item['MaSP'] ?>">
-                            <img class="card-img-top" src="../<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
+                            <img class="card-img-top" src="../images/products/<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
                         </a>
                         <div class="card-body p-4 flex-grow-1">
                             <div class="text-center">
@@ -96,7 +96,7 @@
                                 <?php } ?>
                                 <span class="text-danger fw-bolder card-text"><?= number_format($mh_item['GiaBan'])?> đ</span>
                             </div>
-                            <a class="btn btn-outline-dark-custom mt-auto" href="#">Chọn mua</a>
+                            <a class="btn btn-outline-dark-custom mt-auto" href="index.php?action=chovaogio&id=<?= $mh_item['MaSP']; ?>">Chọn mua</a>
                         </div>
                     </div>
             </div>
@@ -110,7 +110,7 @@
                             <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Giảm giá</div>
                         <?php } ?>
                         <a href="?action=detail&id=<?php echo $mh_item['MaSP'] ?>">
-                            <img class="card-img-top" src="../<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
+                            <img class="card-img-top" src="../images/products/<?php echo $mh_item['HinhAnh'];?>" alt="<?php echo $mh_item['TenSP'];?>" />
                         </a>
                         <div class="card-body p-4 flex-grow-1">
                             <div class="text-center">
@@ -123,13 +123,13 @@
                             </div>
                         </div>
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
-                             <div class="mb-2">
+                            <div class="mb-2">
                                 <?php if($mh_item['GiaBan'] != $mh_item['GiaGoc']) {?>
                                     <span class="text-muted text-decoration-line-through"><?= number_format($mh_item['GiaGoc']) ; ?> đ</span>
                                 <?php } ?>
                                 <span class="text-danger fw-bolder card-text"><?= number_format($mh_item['GiaBan'])?> đ</span>
                             </div>
-                            <a class="btn btn-outline-dark-custom" href="#">Chọn mua</a>
+                            <a class="btn btn-outline-dark-custom" href="index.php?action=chovaogio&id=<?= $mh_item['MaSP']; ?>">Chọn mua</a>
                         </div>
                     </div>
                 </div>
