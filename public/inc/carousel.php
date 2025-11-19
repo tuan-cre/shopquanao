@@ -1,4 +1,18 @@
         <!-- Carousel -->
+        <style>
+            #demo {
+                max-height: 100px;
+                overflow: hidden;
+            }
+            #demo .carousel-inner {
+                max-height: 100px;
+            }
+            #demo .carousel-item img {
+                width: 50px;
+                height: 100px;
+                object-fit: cover;
+            }
+        </style>
         <div id="demo" class="carousel slide shadow" data-bs-ride="carousel">
 
             <!-- Indicators/dots -->

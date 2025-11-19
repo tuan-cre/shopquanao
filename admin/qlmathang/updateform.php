@@ -29,11 +29,11 @@
 			<label>Giá bán</label>
 			<input class="form-control" type="number" name="txtgiaban" value="<?php echo $m["GiaBan"]; ?>" required>
 		</div>
-		<div class="my-3">
-			<label>Hình ảnh</label><br>
-			<input type="hidden" name="txthinhcu" value="<?php echo $m["HinhAnh"]; ?>">
-			<img src="../../<?php echo $m["HinhAnh"]; ?>" width="50" class="img-thumbnail">
-			<a data-bs-toggle="collapse" data-bs-target="#demo">Đổi hình ảnh</a>
+	<div class="my-3">
+		<label>Hình ảnh</label><br>
+		<input type="hidden" name="txthinhcu" value="<?php echo $m["HinhAnh"]; ?>">
+		<img src="../../images/products/<?php echo $m["HinhAnh"]; ?>" width="50" class="img-thumbnail">
+		<a data-bs-toggle="collapse" data-bs-target="#demo">Đổi hình ảnh</a>
 			<div id="demo" class="collapse m-3">
 				<input type="file" class="form-control" name="hinhanh">
 			</div>
@@ -43,11 +43,11 @@
 		<div class="my-3">
 			<label>Các hình ảnh</label><br>
 			<?php
-			$ha = new HINHANHSANPHAM();
-			$ha_theo_sp = $ha->layTatCaHinhAnhTheoMaSP($m["MaSP"]);
-			foreach ($ha_theo_sp as $ha):
-				echo '<img src="../../' . $ha["DuongDan"] . '" class="img-thumbnail" style="width: 100px; height: 100px; margin-right: 5px;"> ';
-			endforeach;
+		$ha = new HINHANHSANPHAM();
+		$ha_theo_sp = $ha->layTatCaHinhAnhTheoMaSP($m["MaSP"]);
+		foreach ($ha_theo_sp as $ha):
+			echo '<img src="../../images/products/' . $ha["DuongDan"] . '" class="img-thumbnail" style="width: 100px; height: 100px; margin-right: 5px;"> ';
+		endforeach;
 			?>
 		</div>
 		<div class="mb-3 mt-3">
