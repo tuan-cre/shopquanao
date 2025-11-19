@@ -2,10 +2,10 @@
 <div class="detail-product px-lg-5">
     <div class="d-flex flex-md-row flex-column mb-5">
         <div class="product-image me-4">
-            <img id="main-img" src="../<?= $mhct['HinhAnh']  ?>" alt="Áo nỉ màu xám" />
+            <img id="main-img" src="../images/products/<?= $mhct['HinhAnh']  ?>" alt="Áo nỉ màu xám" />
             <div class="img-more d-flex justify-content-evenly mt-3">
                 <?php foreach ($dsHinhAnh as $ha): ?>
-                    <img class="img-item" src="../<?= $ha['DuongDan'] ?>" alt="<?= $mhct['TenSP'] ?>" />
+                    <img class="img-item" src="../images/products/<?= $ha['DuongDan'] ?>" alt="<?= $mhct['TenSP'] ?>" />
                 <?php endforeach; ?>
             </div>
         </div>
@@ -75,7 +75,7 @@
                 <a class="text-decoration-none px-1 w-25 d-inline-block" href="index.php?action=detail&id=<?= $splq['MaSP'] ?>">
                     <div class="products h-100">
                         <div class="card h-100">
-                            <img src="../<?= $splq['HinhAnh'] ?>" class="card-img-top h-75" alt="<?= $splq["TenSP"] ?>">
+                            <img src="../images/products/<?= $splq['HinhAnh'] ?>" class="card-img-top h-75" alt="<?= $splq["TenSP"] ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?= $splq['TenSP'] ?></h5>
                                 <p class="card-text text-danger fw-bold"><?= $splq['GiaBan'] ?>VNĐ</p>

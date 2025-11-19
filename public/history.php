@@ -105,11 +105,10 @@
                                         <?php foreach($dh['chitiet'] as $sp): ?>
                                         <tr>
                                             <td>
-                                                <img src="../<?php echo $sp['hinhanh']; ?>" 
+                                                <img src="../images/products/<?php echo $sp['hinhanh']; ?>" 
                                                      width="50" height="50" 
                                                      class="rounded"
-                                                     style="object-fit: cover;"
-                                                     onerror="this.src='../images/products/default.jpg'">
+                                                     style="object-fit: cover;">
                                             </td>
                                             <td class="align-middle"><?php echo $sp['tensanpham']; ?></td>
                                             <td class="align-middle"><?php echo number_format($sp['dongia']); ?>đ</td>

@@ -33,7 +33,7 @@
                         <?php foreach($giohang as $id => $mh): ?>
                         <tr>
                             <td>
-                                <img width="80" src="../<?php echo $mh["hinhanh"]; ?>" 
+                                <img width="80" src="../images/products/<?php echo $mh["hinhanh"]; ?>" 
                                      class="rounded" style="height: 80px; object-fit: cover;">
                             </td>
                             <td class="align-middle">
