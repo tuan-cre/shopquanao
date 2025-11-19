@@ -60,10 +60,14 @@
             <main class="flex flex-1 justify-center py-10 sm:py-16 px-4">
                 <div class="flex flex-col max-w-md w-full">
                     <h1 class="text-[#1b140e] dark:text-[#fcfaf8] tracking-tight text-3xl font-bold leading-tight text-center pb-8">Tạo Tài Khoản</h1>
-                    <form class="space-y-6">
+                    <form class="space-y-6" action="index.php?action=dangky_process" method="post">
                         <div class="flex flex-col">
                             <label class="text-[#1b140e] dark:text-gray-300 text-base font-medium leading-normal pb-2" for="fullName">Họ và Tên</label>
-                            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b140e] dark:text-[#fcfaf8] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dbd0] dark:border-[#3a2f23] bg-[#fcfaf8] dark:bg-[#2a221a] focus:border-primary dark:focus:border-primary h-12 placeholder:text-[#97734e] dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" id="fullName" name="fullName" placeholder="Nhập họ và tên của bạn" type="text" value="" />
+                            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b140e] dark:text-[#fcfaf8] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dbd0] dark:border-[#3a2f23] bg-[#fcfaf8] dark:bg-[#2a221a] focus:border-primary dark:focus:border-primary h-12 placeholder:text-[#97734e] dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" id="hoten" name="hoten" placeholder="Nhập họ và tên của bạn" type="text" value="" />
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-[#1b140e] dark:text-gray-300 text-base font-medium leading-normal pb-2" for="username">Tên người dùng</label>
+                            <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b140e] dark:text-[#fcfaf8] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dbd0] dark:border-[#3a2f23] bg-[#fcfaf8] dark:bg-[#2a221a] focus:border-primary dark:focus:border-primary h-12 placeholder:text-[#97734e] dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal" id="username" name="username" placeholder="Nhập username của bạn" type="text" value="" />
                         </div>
                         <div class="flex flex-col">
                             <label class="text-[#1b140e] dark:text-gray-300 text-base font-medium leading-normal pb-2" for="email">Email</label>
@@ -83,7 +87,7 @@
                             <div class="relative flex w-full flex-1 items-stretch">
                                 <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#1b140e] dark:text-[#fcfaf8] focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e7dbd0] dark:border-[#3a2f23] bg-[#fcfaf8] dark:bg-[#2a221a] focus:border-primary dark:focus:border-primary h-12 placeholder:text-[#97734e] dark:placeholder:text-gray-500 p-3 text-base font-normal leading-normal pr-10" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận lại mật khẩu" type="password" value="" />
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                                    <span class="material-symbols-outlined text-[#97734e] dark:text-gray-500 text-xl cursor-pointer">visibility_off</span>
+                                    <span class="material-symbols-outlined text-[#97734e] dark:text-gray-500 text-xl cursor-pointer">visibility</span>
                                 </div>
                             </div>
                         </div>

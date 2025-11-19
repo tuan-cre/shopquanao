@@ -73,4 +73,37 @@ class TAIKHOAN {
             exit();
         }
     }
+
+    public function kiemtrataikhoandatontai($username) {
+        $db = DATABASE::connect();
+        try {
+            $sql = "SELECT * FROM TaiKhoan WHERE Username=:u";
+            $cmd = $db->prepare($sql);
+            $cmd->bindValue(":u", $username);
+            $cmd->execute();
+            $exists = ($cmd->rowCount() == 1);
+            $cmd->closeCursor();
+            return $exists;
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
+
+    public function dangkytaikhoanKH($username, $password) {
+        $db = DATABASE::connect();
+        try {
+            $sql = "INSERT INTO TaiKhoan (Username, Password, Quyen, TinhTrang) VALUES (:u, :p, 'KhachHang', 'Hoạt động')";
+            $cmd = $db->prepare($sql);
+            $cmd->bindValue(":u", $username);
+            $cmd->bindValue(":p", $password);
+            $cmd->execute();
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
 }
+?>
