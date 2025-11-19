@@ -58,11 +58,11 @@
                     <div class="col-md-4">
                         <h5><i class="bi bi-list-ul"></i> DANH MỤC SẢN PHẨM</h5>
                         <div class="list-group list-group-flush">
-                            <!-- <?php foreach ($danhmuc as $d): ?>
-                                <a class="list-group-item list-group-item-action bg-dark text-light" href="?action=group&id=<?php echo $d["id"]; ?>">
-                                    <?php echo $d["tendanhmuc"]; ?>
+                            <?php foreach ($danhmuc as $d): ?>
+                                <a class="list-group-item list-group-item-action bg-dark text-light" href="?action=group&id=<?php echo $d["MaDM"]; ?>">
+                                    <?php echo $d["TenDanhMuc"]; ?>
                                 </a>
-                            <?php endforeach; ?> -->
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="col-md-3">
