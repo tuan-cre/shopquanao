@@ -69,18 +69,18 @@
                             <h1 class="text-3xl font-bold tracking-tight text-text-light dark:text-text-dark mt-2">Đăng nhập</h1>
                             <p class="text-base text-text-muted-light dark:text-text-muted-dark mt-2">Chào mừng bạn đã trở lại! Hãy cùng khám phá.</p>
                         </div>
-                        <form class="space-y-6">
+                        <form class="space-y-6" action="index.php?action=dangnhap_process" method="post">
                             <div>
                                 <label class="flex flex-col">
-                                    <p class="text-sm font-medium leading-normal pb-2">Email / Tên người dùng</p>
-                                    <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark focus:border-primary focus:ring-primary h-12 px-4 text-base font-normal leading-normal placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark text-text-light dark:text-text-dark" placeholder="Nhập email hoặc tên người dùng" type="email" value="" />
+                                    <p class="text-sm font-medium leading-normal pb-2">Tên người dùng</p>
+                                    <input name="username" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark focus:border-primary focus:ring-primary h-12 px-4 text-base font-normal leading-normal placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark text-text-light dark:text-text-dark" placeholder="Nhập username" type="text" value="" />
                                 </label>
                             </div>
                             <div>
                                 <label class="flex flex-col">
                                     <p class="text-sm font-medium leading-normal pb-2">Mật khẩu</p>
                                     <div class="relative flex w-full flex-1 items-stretch">
-                                        <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark focus:border-primary focus:ring-primary h-12 pl-4 pr-12 text-base font-normal leading-normal placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark text-text-light dark:text-text-dark" placeholder="Nhập mật khẩu của bạn" type="password" value="" />
+                                        <input name="password" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark focus:border-primary focus:ring-primary h-12 pl-4 pr-12 text-base font-normal leading-normal placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark text-text-light dark:text-text-dark" placeholder="Nhập mật khẩu của bạn" type="password" value="" />
                                         <button class="absolute inset-y-0 right-0 flex items-center pr-4 text-text-muted-light dark:text-text-muted-dark" type="button">
                                             <span class="material-symbols-outlined">visibility</span>
                                         </button>
@@ -104,5 +104,4 @@
         </div>
     </div>
 </body>
-
 </html>
