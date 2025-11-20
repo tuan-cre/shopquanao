@@ -87,15 +87,31 @@ switch ($action) {
                     exit();
                 }
 
-                // Thêm tài khoản mới và khách hàng vào cơ sở dữ liệu
-                $taikhoan->dangkytaikhoanKH($username, md5($password));
-                $khachhangmoi = new KHACHHANG();
-                $khachhangmoi->setUsername($username);
-                $khachhangmoi->setHoTen($hoten);
-                $khachhangmoi->setEmail($email);
-                $khachhangmoi->themKhachHang($khachhangmoi);
-
-                echo '<script>alert("Đăng ký thành công! Vui lòng đăng nhập."); window.location="index.php?action=dangnhap";</script>';
+                // Thêm tài khoản mới
+                $resultTK = $taikhoan->dangkytaikhoanKH($username, md5($password));
+                
+                if ($resultTK) {
+                    // Thêm khách hàng vào cơ sở dữ liệu
+                    $khachhangmoi = new KHACHHANG();
+                    $khachhangmoi->setUsername($username);
+                    $khachhangmoi->setHoTen($hoten);
+                    $khachhangmoi->setEmail($email);
+                    $khachhangmoi->setDiaChi('');
+                    $khachhangmoi->setSoDienThoai('');
+                    $khachhangmoi->setGioiTinh('Nam');
+                    $khachhangmoi->setNamSinh(null);
+                    $khachhangmoi->setDiemThuong(0);
+                    
+                    $resultKH = KHACHHANG::themKhachHang($khachhangmoi);
+                    
+                    if ($resultKH) {
+                        echo '<script>alert("Đăng ký thành công! Vui lòng đăng nhập."); window.location="index.php?action=dangnhap";</script>';
+                    } else {
+                        echo '<script>alert("Có lỗi khi tạo thông tin khách hàng!"); window.location="index.php?action=dangky";</script>';
+                    }
+                } else {
+                    echo '<script>alert("Có lỗi khi tạo tài khoản!"); window.location="index.php?action=dangky";</script>';
+                }
             }
         }
         break;
@@ -113,12 +129,25 @@ switch ($action) {
 
                 $islogin = $taikhoan->kiemtrataikhoanhople($username, md5($password));
                 if ($islogin) {
+                    // Lấy thông tin tài khoản
+                    $userInfo = $taikhoan->laythongtin($username);
+                    
+                    // Lấy thông tin khách hàng (nếu có)
+                    $khachHang = KHACHHANG::layKhachHangTheoUsername($username);
+                    
                     // Lưu thông tin người dùng vào session
-                    $user = $kh->layKhachHangTheoUsername($username);
-                    $_SESSION['user']['HoTen'] = $user['HoTen'];
+                    $_SESSION['user'] = [
+                        'Username' => $username,
+                        'HoTen' => $khachHang ? $khachHang['HoTen'] : $username,
+                        'Email' => $khachHang ? $khachHang['Email'] : '',
+                        'MaKhachHang' => $khachHang ? $khachHang['MaKhachHang'] : null,
+                        'Quyen' => $userInfo['Quyen'],
+                        'TinhTrang' => $userInfo['TinhTrang']
+                    ];
+                    
                     echo '<script>alert("Đăng nhập thành công!"); window.location="index.php";</script>';
                 } else {
-                    echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=trangchu";</script>';
+                    echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=dangnhap";</script>';
                     exit();
                 }
             }
