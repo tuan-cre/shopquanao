@@ -5,8 +5,8 @@ class PHANHOI{
     public function layphanhoitheoidsp($id){
         $db = DATABASE::connect();
         try{
-            // Kết hợp bảng phanhoi và khachhang để lấy tên khách hàng
-            $sql = "SELECT ph.*, kh.HoTen FROM phanhoi ph, khachhang kh WHERE ph.MaKhachHang = kh.MaKhachHang AND ph.MaSP = :masp";
+            // Kết hợp bảng phanhoi và KhachHang để lấy tên khách hàng
+            $sql = "SELECT ph.*, kh.HoTen FROM PhanHoi ph, KhachHang kh WHERE ph.MaKhachHang = kh.MaKhachHang AND ph.MaSP = :masp";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(":masp", $id);
             $cmd->execute();
@@ -21,7 +21,7 @@ class PHANHOI{
     public function themphanhoi($maND, $maSP, $chiTiet, $danhGia){
         $db = DATABASE::connect();
         try {
-            $sql = "INSERT INTO phanhoi (MaSP, MaKhachHang, DanhGia, ChiTietPH)
+            $sql = "INSERT INTO PhanHoi (MaSP, MaKhachHang, DanhGia, ChiTietPH)
                     VALUES (:masp, :makh, :danhgia, :chitiet)";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(":masp", $maSP);
@@ -40,7 +40,7 @@ class PHANHOI{
     public function suaphanhoi($maKH, $maSP, $chiTiet, $danhGia){
         $db = DATABASE::connect();
         try {
-            $sql = "UPDATE phanhoi 
+            $sql = "UPDATE PhanHoi 
                     SET DanhGia = :danhgia, ChiTietPH = :chitiet 
                     WHERE MaKhachHang = :makh AND MaSP = :masp";
             $cmd = $db->prepare($sql);
@@ -61,7 +61,7 @@ class PHANHOI{
     public function xoaphanhoi($maKH, $maSP){
         $db = DATABASE::connect();
         try {
-            $sql = "DELETE FROM phanhoi WHERE MaKhachHang = :makh AND MaSP = :masp";
+            $sql = "DELETE FROM PhanHoi WHERE MaKhachHang = :makh AND MaSP = :masp";
             $cmd = $db->prepare($sql);
             $cmd->bindValue(":makh", $maKH);
             $cmd->bindValue(":masp", $maSP);
