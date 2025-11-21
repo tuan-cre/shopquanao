@@ -12,6 +12,8 @@ require("../model/mathang.php");
 require("../model/taikhoan.php");
 require("../model/khachhang.php");
 require("../model/hinhanhsanpham.php");
+require("../model/donhang.php");
+require("../model/ctdonhang.php");
 
 require("../model/sukien.php"); // Thêm model sự kiện
 
@@ -322,6 +324,38 @@ switch ($action) {
         include("cart.php");
         break;
 
+    case "gioithieu":
+        // Trang giới thiệu
+        include("gioithieu.php");
+        break;
+
+    case "lienhe":
+        // Trang liên hệ
+        include("lienhe.php");
+        break;
+
+    case "guilienhe":
+        // Xử lý form liên hệ
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $hoten = trim($_POST['hoten'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $sodienthoai = trim($_POST['sodienthoai'] ?? '');
+            $chude = trim($_POST['chude'] ?? '');
+            $noidung = trim($_POST['noidung'] ?? '');
+            
+            if (empty($hoten) || empty($email) || empty($chude) || empty($noidung)) {
+                echo '<script>alert("Vui lòng điền đầy đủ thông tin!"); window.history.back();</script>';
+                exit();
+            }
+            
+            // TODO: Lưu thông tin liên hệ vào database hoặc gửi email
+            // Hiện tại chỉ thông báo thành công
+            echo '<script>alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất."); window.location="index.php?action=lienhe";</script>';
+        } else {
+            include("lienhe.php");
+        }
+        break;
+
     case "thanhtoan":
         // Kiểm tra đăng nhập trước khi thanh toán
         if (!isset($_SESSION['user'])) {
@@ -331,6 +365,71 @@ switch ($action) {
         
         // Trang thanh toán
         include("checkout.php");
+        break;
+
+    case "xulythanhtoan":
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
+        // Kiểm tra giỏ hàng không rỗng
+        if (empty($_SESSION['cart'])) {
+            echo '<script>alert("Giỏ hàng rỗng!"); window.location="index.php";</script>';
+            exit();
+        }
+        
+        // Lấy thông tin từ form
+        $hoten = trim($_POST['hoten'] ?? '');
+        $sodienthoai = trim($_POST['sodienthoai'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $diachi = trim($_POST['diachi'] ?? '');
+        $ghichu = trim($_POST['ghichu'] ?? '');
+        $phuongthuc = $_POST['phuongthuc'] ?? 'COD';
+        
+        // Validate
+        if (empty($hoten) || empty($sodienthoai) || empty($email) || empty($diachi)) {
+            echo '<script>alert("Vui lòng điền đầy đủ thông tin!"); window.history.back();</script>';
+            exit();
+        }
+        
+        // Cập nhật thông tin khách hàng nếu có thay đổi
+        $maKhachHang = $_SESSION['user']['MaKhachHang'];
+        if ($maKhachHang) {
+            $khUpdate = new KHACHHANG();
+            $khUpdate->setMaKhachHang($maKhachHang);
+            $khUpdate->setHoTen($hoten);
+            $khUpdate->setEmail($email);
+            $khUpdate->setDiaChi($diachi);
+            $khUpdate->setSoDienThoai($sodienthoai);
+            KHACHHANG::capNhatKhachHang($khUpdate);
+        }
+        
+        // Chuẩn bị chi tiết đơn hàng
+        $chitietdonhang = [];
+        foreach ($_SESSION['cart'] as $masp => $soluong) {
+            $sp = $mh->laymathangtheoid($masp);
+            if ($sp) {
+                $chitietdonhang[] = [
+                    'MaSP' => $sp['MaSP'],
+                    'SoLuong' => $soluong,
+                    'ThanhTien' => $sp['GiaBan'] * $soluong
+                ];
+            }
+        }
+        
+        // Tạo đơn hàng
+        $dh = new DONHANG();
+        $donhangId = $dh->themdonhang($maKhachHang, 'Chờ xác nhận', $chitietdonhang);
+        
+        if ($donhangId) {
+            // Xóa giỏ hàng
+            $_SESSION['cart'] = [];
+            echo '<script>alert("Đặt hàng thành công! Mã đơn hàng: ' . $donhangId . '\\nCảm ơn bạn đã mua hàng!"); window.location="index.php";</script>';
+        } else {
+            echo '<script>alert("Có lỗi xảy ra khi đặt hàng!"); window.history.back();</script>';
+        }
         break;
 
     default:
