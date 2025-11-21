@@ -39,7 +39,7 @@ class HINHANHSANPHAM
     public function themHinhAnh()
     {
         try {
-            $sql = "INSERT INTO hinhanhsanpham (MaSP, DuongDan) VALUES (:masp, :duongdan)";
+            $sql = "INSERT INTO HinhAnhSanPham (MaSP, DuongDan) VALUES (:masp, :duongdan)";
             $conn = DATABASE::connect();
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':masp', $this->masp);
@@ -55,23 +55,27 @@ class HINHANHSANPHAM
     public function layHinhAnhTheoMaSP($masp)
     {
         try {
-            $sql = "SELECT Duongdan FROM hinhanhsanpham WHERE MaSP = :masp ORDER BY idHinhAnh DESC LIMIT 1";
+            $sql = "SELECT DuongDan FROM HinhAnhSanPham WHERE MaSP = :masp ORDER BY IdHinhAnh DESC LIMIT 1";
             $conn = DATABASE::connect();
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':masp', $masp);
             $stmt->execute();
-            $hinhAnh= $stmt->fetchColumn();
+            $hinhAnh = $stmt->fetchColumn();
+            // Chỉ trả về tên file (bỏ path "images/products/") để lưu vào bảng SanPham
+            if ($hinhAnh && strpos($hinhAnh, 'images/products/') === 0) {
+                $hinhAnh = str_replace('images/products/', '', $hinhAnh);
+            }
             return $hinhAnh;
         } catch (Exception $e) {
             echo "Lỗi: " . $e->getMessage();
-            return [];
+            return '';
         }
     }
 
     public function layTatCaHinhAnhTheoMaSP($masp)
     {
         try {
-            $sql = "SELECT * FROM hinhanhsanpham WHERE MaSP = :masp";
+            $sql = "SELECT * FROM HinhAnhSanPham WHERE MaSP = :masp";
             $conn = DATABASE::connect();
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':masp', $masp);
@@ -87,7 +91,7 @@ class HINHANHSANPHAM
     public function xoaHinhAnhTheoMaSP($masp)
     {
         try {
-            $sql = "DELETE FROM hinhanhsanpham WHERE MaSP = :masp";
+            $sql = "DELETE FROM HinhAnhSanPham WHERE MaSP = :masp";
             $conn = DATABASE::connect();
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':masp', $masp);

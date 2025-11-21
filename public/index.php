@@ -13,6 +13,8 @@ require("../model/taikhoan.php");
 require("../model/khachhang.php");
 require("../model/hinhanhsanpham.php");
 require("../model/phanhoi.php");
+require("../model/donhang.php");
+require("../model/ctdonhang.php");
 
 require("../model/sukien.php"); // Thêm model sự kiện
 
@@ -24,6 +26,7 @@ $ha = new HINHANHSANPHAM();
 $kh = new KHACHHANG();
 $sk = new SUKIEN(); // Tạo đối tượng sự kiện
 $ph = new PHANHOI();
+$ctdonhang = new DONHANGCT();
 
 // Hàm đếm hàng trong giỏ
 function demhangtronggio()
@@ -59,6 +62,22 @@ switch ($action) {
     case "dangky":
         include("register.php");
         break;
+    case "doimatkhau":
+        if ($_REQUEST['MatKhauMoi'] && $_REQUEST['MatKhauCu']) {
+            $matkhaucu = md5($_REQUEST['MatKhauCu']);
+            $matkhaumoi = md5($_REQUEST['MatKhauMoi']);
+            $username = $_SESSION['user']['Username'];
+            $islogin = $taikhoan->kiemtrataikhoanhople($username, $matkhaucu);
+            if ($islogin) {
+                $result = $taikhoan->doimatkhau($username, $matkhaumoi);
+                echo '<script>alert("Đổi mật khẩu thành công! Vui lòng đăng nhập lại."); window.location="index.php?action=dangnhap";</script>';
+                session_unset();
+                session_destroy();
+            } else {
+                echo '<script>alert("Mật khẩu cũ không đúng! Vui lòng thử lại."); window.location="index.php?action=thongtin";</script>';
+            }
+        }
+        break;
     case "dangxuat":
         // Đăng xuất
         session_unset();
@@ -89,15 +108,31 @@ switch ($action) {
                     exit();
                 }
 
-                // Thêm tài khoản mới và khách hàng vào cơ sở dữ liệu
-                $taikhoan->dangkytaikhoanKH($username, md5($password));
-                $khachhangmoi = new KHACHHANG();
-                $khachhangmoi->setUsername($username);
-                $khachhangmoi->setHoTen($hoten);
-                $khachhangmoi->setEmail($email);
-                $khachhangmoi->themKhachHang($khachhangmoi);
+                // Thêm tài khoản mới
+                $resultTK = $taikhoan->dangkytaikhoanKH($username, md5($password));
 
-                echo '<script>alert("Đăng ký thành công! Vui lòng đăng nhập."); window.location="index.php?action=dangnhap";</script>';
+                if ($resultTK) {
+                    // Thêm khách hàng vào cơ sở dữ liệu
+                    $khachhangmoi = new KHACHHANG();
+                    $khachhangmoi->setUsername($username);
+                    $khachhangmoi->setHoTen($hoten);
+                    $khachhangmoi->setEmail($email);
+                    $khachhangmoi->setDiaChi('');
+                    $khachhangmoi->setSoDienThoai('');
+                    $khachhangmoi->setGioiTinh('Nam');
+                    $khachhangmoi->setNamSinh(null);
+                    $khachhangmoi->setDiemThuong(0);
+
+                    $resultKH = KHACHHANG::themKhachHang($khachhangmoi);
+
+                    if ($resultKH) {
+                        echo '<script>alert("Đăng ký thành công! Vui lòng đăng nhập."); window.location="index.php?action=dangnhap";</script>';
+                    } else {
+                        echo '<script>alert("Có lỗi khi tạo thông tin khách hàng!"); window.location="index.php?action=dangky";</script>';
+                    }
+                } else {
+                    echo '<script>alert("Có lỗi khi tạo tài khoản!"); window.location="index.php?action=dangky";</script>';
+                }
             }
         }
         break;
@@ -119,9 +154,25 @@ switch ($action) {
                     $user = $kh->layKhachHangTheoUsername($username);
                     $_SESSION['user']['HoTen'] = $user['HoTen'];
                     $_SESSION['user']['MaKH'] = $user['MaKhachHang'];
+                    // Lấy thông tin tài khoản
+                    $userInfo = $taikhoan->laythongtin($username);
+
+                    // Lấy thông tin khách hàng (nếu có)
+                    $khachHang = KHACHHANG::layKhachHangTheoUsername($username);
+
+                    // Lưu thông tin người dùng vào session
+                    $_SESSION['user'] = [
+                        'Username' => $username,
+                        'HoTen' => $khachHang ? $khachHang['HoTen'] : $username,
+                        'Email' => $khachHang ? $khachHang['Email'] : '',
+                        'MaKhachHang' => $khachHang ? $khachHang['MaKhachHang'] : null,
+                        'Quyen' => $userInfo['Quyen'],
+                        'TinhTrang' => $userInfo['TinhTrang']
+                    ];
+
                     echo '<script>alert("Đăng nhập thành công!"); window.location="index.php";</script>';
                 } else {
-                    echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=trangchu";</script>';
+                    echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=dangnhap";</script>';
                     exit();
                 }
             }
@@ -182,7 +233,7 @@ switch ($action) {
             echo '<script>alert("Vui lòng đăng nhập để xem giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
             exit();
         }
-        
+
         // Hiển thị giỏ hàng
         $giohang = [];
         foreach ($_SESSION['cart'] as $masp => $soluong) {
@@ -208,7 +259,7 @@ switch ($action) {
             echo '<script>alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
             exit();
         }
-        
+
         // Thêm sản phẩm vào giỏ
         if (isset($_REQUEST['id'])) {
             $id = $_REQUEST['id'];
@@ -252,7 +303,7 @@ switch ($action) {
             echo '<script>alert("Vui lòng đăng nhập để cập nhật giỏ hàng!"); window.location="index.php?action=dangnhap";</script>';
             exit();
         }
-        
+
         // Cập nhật số lượng từ form
         if (isset($_REQUEST['mh']) && is_array($_REQUEST['mh'])) {
             foreach ($_REQUEST['mh'] as $masp => $soluong) {
@@ -289,12 +340,44 @@ switch ($action) {
             echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
             exit();
         }
-        
+
         // Xóa toàn bộ giỏ hàng
         $_SESSION['cart'] = [];
         // Hiển thị giỏ hàng rỗng (không redirect)
         $giohang = [];
         include("cart.php");
+        break;
+
+    case "gioithieu":
+        // Trang giới thiệu
+        include("gioithieu.php");
+        break;
+
+    case "lienhe":
+        // Trang liên hệ
+        include("lienhe.php");
+        break;
+
+    case "guilienhe":
+        // Xử lý form liên hệ
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $hoten = trim($_POST['hoten'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $sodienthoai = trim($_POST['sodienthoai'] ?? '');
+            $chude = trim($_POST['chude'] ?? '');
+            $noidung = trim($_POST['noidung'] ?? '');
+            
+            if (empty($hoten) || empty($email) || empty($chude) || empty($noidung)) {
+                echo '<script>alert("Vui lòng điền đầy đủ thông tin!"); window.history.back();</script>';
+                exit();
+            }
+            
+            // TODO: Lưu thông tin liên hệ vào database hoặc gửi email
+            // Hiện tại chỉ thông báo thành công
+            echo '<script>alert("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất."); window.location="index.php?action=lienhe";</script>';
+        } else {
+            include("lienhe.php");
+        }
         break;
 
     case "thanhtoan":
@@ -303,7 +386,7 @@ switch ($action) {
             echo '<script>alert("Vui lòng đăng nhập để thanh toán!"); window.location="index.php?action=dangnhap";</script>';
             exit();
         }
-        
+
         // Trang thanh toán
         include("checkout.php");
         break;
@@ -354,9 +437,7 @@ switch ($action) {
             echo '<script>alert("Cập nhật phản hồi thành công!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
         }
         break;
-
     case "xoaphanhoi":
-        // Kiểm tra người dùng đã đăng nhập chưa
         if (!isset($_SESSION['user'])) {
             echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
             exit();
@@ -369,9 +450,69 @@ switch ($action) {
             echo '<script>alert("Xóa phản hồi thành công!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
         }
         break;
+        // Kiểm tra người dùng đã đăng nhập chưa
+    case "xulythanhtoan":
+        // Kiểm tra giỏ hàng không rỗng
+        if (empty($_SESSION['cart'])) {
+            echo '<script>alert("Giỏ hàng rỗng!"); window.location="index.php";</script>';
+            exit();
+        }
+        
+        // Lấy thông tin từ form
+        $hoten = trim($_POST['hoten'] ?? '');
+        $sodienthoai = trim($_POST['sodienthoai'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $diachi = trim($_POST['diachi'] ?? '');
+        $ghichu = trim($_POST['ghichu'] ?? '');
+        $phuongthuc = $_POST['phuongthuc'] ?? 'COD';
+        
+        // Validate
+        if (empty($hoten) || empty($sodienthoai) || empty($email) || empty($diachi)) {
+            echo '<script>alert("Vui lòng điền đầy đủ thông tin!"); window.history.back();</script>';
+            exit();
+        }
+        
+        // Cập nhật thông tin khách hàng nếu có thay đổi
+        $maKhachHang = $_SESSION['user']['MaKhachHang'];
+        if ($maKhachHang) {
+            $khUpdate = new KHACHHANG();
+            $khUpdate->setMaKhachHang($maKhachHang);
+            $khUpdate->setHoTen($hoten);
+            $khUpdate->setEmail($email);
+            $khUpdate->setDiaChi($diachi);
+            $khUpdate->setSoDienThoai($sodienthoai);
+            KHACHHANG::capNhatKhachHang($khUpdate);
+        }
+        
+        // Chuẩn bị chi tiết đơn hàng
+        $chitietdonhang = [];
+        foreach ($_SESSION['cart'] as $masp => $soluong) {
+            $sp = $mh->laymathangtheoid($masp);
+            if ($sp) {
+                $chitietdonhang[] = [
+                    'MaSP' => $sp['MaSP'],
+                    'SoLuong' => $soluong,
+                    'ThanhTien' => $sp['GiaBan'] * $soluong
+                ];
+            }
+        }
+        
+        // Tạo đơn hàng
+        $dh = new DONHANG();
+        $donhangId = $dh->themdonhang($maKhachHang, 'Chờ xác nhận', $chitietdonhang);
+
+        if ($donhangId) {
+            // Xóa giỏ hàng
+            $_SESSION['cart'] = [];
+            echo '<script>alert("Đặt hàng thành công! Mã đơn hàng: ' . $donhangId . '\nCảm ơn bạn đã mua hàng!"); window.location="index.php";</script>';
+        } else {
+            echo '<script>alert("Có lỗi xảy ra khi đặt hàng!"); window.history.back();</script>';
+        }
+        break;
 
     default:
         $mathang = $mh->laymathang();
         include("main.php");
         break;
 }
+
