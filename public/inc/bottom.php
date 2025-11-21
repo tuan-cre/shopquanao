@@ -5,32 +5,9 @@
         <section>            
             <div class="container-fluid">
                 <div class="row">                    
-                    <div class="col-md-6">
+                    <div class="">
                         <?php include("inc/carousel.php"); ?>    
                     </div>
-                    <div class="col-md-6 pt-2">
-                    <!-- Nav tabs -->
-                      <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" data-bs-toggle="tab" href="#menu1">Nổi bật</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-bs-toggle="tab" href="#menu2">Xem nhiều</a>
-                        </li>
-                      </ul>
-
-                      <!-- Tab panes -->
-                      <div class="tab-content">                        
-                        <div id="menu1" class="container tab-pane active"><br>
-                          
-                          <?php include("inc/topview.php"); ?>
-                          
-                        </div>
-                        <div id="menu2" class="container tab-pane fade"><br>
-                          <h3>Sản phẩm xem nhiều</h3>
-                          <p>Đang cập nhật...</p>
-
-                        </div>
                       </div>
                     </div>
                 </div>

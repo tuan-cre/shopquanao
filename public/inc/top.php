@@ -61,7 +61,7 @@
                         <div class="dropdown align-items-center">
                             <a class="dropdown-toggle me-3 text-decoration-none" href="#"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle"></i> <?php echo $_SESSION['user']['Username']; ?>
+                                <i class="bi bi-person-circle"></i> <?php echo $_SESSION['user']['HoTen']; ?>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="index.php?action=thongtin">Thông tin</a></li>
@@ -98,7 +98,7 @@
         <div class="content d-flex flex-column justify-content-center align-items-start px-5 mb-4 h-100">
             <h1 class="fw-bold text-white">
                 <?php if (isset($_SESSION['user'])): ?>
-                    Xin chào, <?php echo $_SESSION['user']['Username']; ?>!
+                    Xin chào, <?php echo $_SESSION['user']['HoTen']; ?>!
                 <?php else: ?>
                     Chào mừng đến với Shop UNI
                 <?php endif; ?>
