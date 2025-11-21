@@ -34,7 +34,7 @@ CREATE TABLE CuaHang (
 CREATE TABLE NhanVien (
     MaNV INT PRIMARY KEY AUTO_INCREMENT,
     HoTen VARCHAR(100),
-    GioiTinh ENUM('Nam', 'Nữ'),
+    GioiTinh ENUM('Nam', 'Nữ'), -- 0: Nam, 1: Nữ
     SoDT VARCHAR(15),
     DiaChi VARCHAR(255),
     NgaySinh DATE,
