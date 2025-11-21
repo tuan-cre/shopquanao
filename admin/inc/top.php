@@ -102,6 +102,14 @@
 						</a>
 					</li>
 
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlchamcong") !== false)
+						echo "active"; ?>">
+						<a class="sidebar-link" href="../qlchamcong/index.php">
+							<i class="align-middle" data-feather="clock"></i> <span class="align-middle">Quản lý chấm
+								công</span>
+						</a>
+					</li>
+
 					<li class="sidebar-header text-info">
 						KINH DOANH
 					</li>

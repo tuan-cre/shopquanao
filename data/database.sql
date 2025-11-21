@@ -205,8 +205,12 @@ CREATE TABLE PhanHoi (
 CREATE TABLE ChamCong (
     MaChamCong INT PRIMARY KEY AUTO_INCREMENT,
     MaNhanVien INT,
+    NgayCham DATE DEFAULT CURRENT_DATE,
+    GioVao TIME,
+    GioRa TIME,
     ThoiGianLam FLOAT,
     DanhGia VARCHAR(100),
+    GhiChu VARCHAR(255),
     FOREIGN KEY (MaNhanVien) REFERENCES NhanVien(MaNV) ON DELETE CASCADE
 );
 
@@ -218,6 +222,13 @@ INSERT INTO ChucVu (TenCV, HSLuong) VALUES
 ('Quản lý', 3.0),
 ('Bán hàng', 1.5),
 ('Kho', 1.2);
+
+-- Mẫu dữ liệu chấm công
+INSERT INTO ChamCong (MaNhanVien, NgayCham, GioVao, GioRa, ThoiGianLam, DanhGia, GhiChu) VALUES
+    (1, '2025-11-20', '08:00', '17:00', 8.0, 'Tốt', 'Đúng giờ, làm đủ ca'),
+    (2, '2025-11-20', '08:15', '17:00', 7.75, 'Khá', 'Đến muộn 15 phút'),
+    (1, '2025-11-21', '08:00', '16:30', 7.5, 'Xuất sắc', 'Về sớm do hoàn thành công việc'),
+    (3, '2025-11-21', '09:00', '17:00', 7.0, 'Trung bình', 'Đi muộn, cần nhắc nhở');
 
 INSERT INTO CuaHang (TenCuaHang, SoChiNhanh, SoDT, DiaChi)
 VALUES
