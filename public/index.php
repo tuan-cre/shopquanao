@@ -562,7 +562,15 @@ switch ($action) {
             echo '<script>alert("Có lỗi xảy ra khi đặt hàng!"); window.history.back();</script>';
         }
         break;
-
+    case 'timkiem':
+        if (isset($_GET['tukhoa'])) {
+            $keyword = $_GET['tukhoa'];
+            $mathang= $mh->timkiemmathang($keyword); 
+            include 'main.php'; 
+        } else {
+            header('Location: index.php');
+        }
+        break;
     default:
         $mathang = $mh->laymathang();
         include("main.php");

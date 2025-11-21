@@ -115,7 +115,6 @@
 
 <?php foreach($danhmuc as $dm): ?>
     <?php
-    // Lọc các sản phẩm thuộc danh mục hiện tại (GIỮ NGUYÊN LOGIC PHP)
     $products_in_category = array_filter($mathang, function($mh_item) use ($dm) {
         return $mh_item['MaDM'] == $dm['MaDM'];
     });
