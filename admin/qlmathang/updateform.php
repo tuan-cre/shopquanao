@@ -46,7 +46,7 @@
 		$ha = new HINHANHSANPHAM();
 		$ha_theo_sp = $ha->layTatCaHinhAnhTheoMaSP($m["MaSP"]);
 		foreach ($ha_theo_sp as $ha):
-			echo '<img src="../../images/products/' . $ha["DuongDan"] . '" class="img-thumbnail" style="width: 100px; height: 100px; margin-right: 5px;"> ';
+			echo '<img src="../../' . $ha["DuongDan"] . '" class="img-thumbnail" style="width: 100px; height: 100px; margin-right: 5px;"> ';
 		endforeach;
 			?>
 		</div>

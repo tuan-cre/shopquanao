@@ -134,14 +134,13 @@ switch ($action) {
             $ext = strtolower(pathinfo($orig, PATHINFO_EXTENSION));
             $safeBase = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", pathinfo($orig, PATHINFO_FILENAME));
             $uniqueMain = $safeBase . '_' . time() . '.' . $ext;
-            $relativeMain = "images/" . $uniqueMain;
-            $destMain = __DIR__ . "/../../" . $relativeMain;
-
-            $dirMain = dirname($destMain);
-            if (!is_dir($dirMain)) mkdir($dirMain, 0775, true);
+            $uploadFolder = __DIR__ . "/../../images/products/";
+            if (!is_dir($uploadFolder)) mkdir($uploadFolder, 0775, true);
+            $destMain = $uploadFolder . $uniqueMain;
 
             if (is_uploaded_file($_FILES["hinhanh"]["tmp_name"]) && move_uploaded_file($_FILES["hinhanh"]["tmp_name"], $destMain)) {
-                $mathanghh->sethinhanh($relativeMain);
+                // Chỉ lưu tên file vào bảng SanPham (không có path)
+                $mathanghh->sethinhanh($uniqueMain);
             }
         } else {
             // giữ ảnh cũ: server gửi txthinhcu trong form
