@@ -175,7 +175,7 @@ switch ($action) {
         if (isset($_REQUEST["id"])) {
             $id = $_REQUEST["id"];
             $danhmuctheoID = $dm->laydanhmuctheoid($id);
-            $tendanhmuc = $danhmuctheoID['TenDM'];
+            $tendanhmuc = $danhmuctheoID['TenDanhMuc'];
             $mathang = $mh->laymathangtheodanhmuc($id);
             include("group.php");
         } else {
