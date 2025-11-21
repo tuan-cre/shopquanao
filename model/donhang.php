@@ -59,7 +59,24 @@ class DONHANG{
 			exit();
 		}
 	}
-	
+
+	// public function layDonHangTheoMaKH($MaKhachHang){
+	// 	$db = DATABASE::connect();
+	// 	try{
+	// 		$sql = "SELECT * FROM DonHang WHERE MaKhachHang=:MaKhachHang ORDER BY NgayDat DESC";
+	// 		$cmd = $db->prepare($sql);
+	// 		$cmd->bindValue(":MaKhachHang", $MaKhachHang);
+	// 		$cmd->execute();
+	// 		$result = $cmd->fetchAll();
+	// 		return $result;
+	// 	}
+	// 	catch(PDOException $e){
+	// 		$error_message=$e->getMessage();
+	// 		echo "<p>Lỗi truy vấn: $error_message</p>";
+	// 		exit();
+	// 	}
+	// }
+
 	/**
 	 * Cập nhật trạng thái đơn hàng
 	 */
