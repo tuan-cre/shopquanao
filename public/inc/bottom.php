@@ -1,18 +1,15 @@
         </section>
         
         <!-- Top products -->
-
         <section>            
             <div class="container-fluid">
                 <div class="row">                    
                     <div class="">
                         <?php include("inc/carousel.php"); ?>    
                     </div>
-                      </div>
-                    </div>
                 </div>
             </div>
-        </section> 
+        </section>
 
         <!-- Footer-->
         <footer class="py-5 bg-dark text-light">
