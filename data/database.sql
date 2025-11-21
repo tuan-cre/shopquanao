@@ -218,30 +218,35 @@ CREATE TABLE ChamCong (
 -- DỮ LIỆU MẪU
 -- =========================================================
 
+-- 1. Tạo Chức vụ trước
 INSERT INTO ChucVu (TenCV, HSLuong) VALUES
 ('Quản lý', 3.0),
 ('Bán hàng', 1.5),
 ('Kho', 1.2);
 
--- Mẫu dữ liệu chấm công
+-- 2. Tạo Cửa hàng (chưa có quản lý)
+INSERT INTO CuaHang (TenCuaHang, SoChiNhanh, SoDT, DiaChi)
+VALUES
+('Chi nhánh Hà Nội', 1, '0123456789', '123 Đường A, Hà Nội'),
+('Chi nhánh TP.HCM', 2, '0987654321', '456 Đường B, TP.HCM');
+
+-- 3. Tạo Nhân viên (lúc này đã có Chức vụ và Cửa hàng để tham chiếu)
+INSERT INTO NhanVien (HoTen, GioiTinh, SoDT, DiaChi, NgaySinh, Email, MaCuaHang, MaCV)
+VALUES
+('Nguyễn Văn A', 'Nam', '0901112222', 'Hà Nội', '1998-01-01', 'a@shop.com', 1, 1),
+('Trần Thị B', 'Nữ', '0913334444', 'TP.HCM', '2000-02-02', 'b@shop.com', 2, 2);
+
+-- 4. Cập nhật lại Quản lý cho Cửa hàng (sau khi đã có Nhân viên)
+UPDATE CuaHang SET MaNVQuanLy = 1 WHERE MaCuaHang = 1;
+
+-- 5. BÂY GIỜ MỚI ĐƯỢC INSERT CHẤM CÔNG (Vì giờ đã có nhân viên ID 1 và 2)
 INSERT INTO ChamCong (MaNhanVien, NgayCham, GioVao, GioRa, ThoiGianLam, DanhGia, GhiChu) VALUES
     (1, '2025-11-20', '08:00', '17:00', 8.0, 'Tốt', 'Đúng giờ, làm đủ ca'),
     (2, '2025-11-20', '08:15', '17:00', 7.75, 'Khá', 'Đến muộn 15 phút'),
     (1, '2025-11-21', '08:00', '16:30', 7.5, 'Xuất sắc', 'Về sớm do hoàn thành công việc'),
     (2, '2025-11-21', '09:00', '17:00', 7.0, 'Trung bình', 'Đi muộn, cần nhắc nhở');
 
-INSERT INTO CuaHang (TenCuaHang, SoChiNhanh, SoDT, DiaChi)
-VALUES
-('Chi nhánh Hà Nội', 1, '0123456789', '123 Đường A, Hà Nội'),
-('Chi nhánh TP.HCM', 2, '0987654321', '456 Đường B, TP.HCM');
-
-INSERT INTO NhanVien (HoTen, GioiTinh, SoDT, DiaChi, NgaySinh, Email, MaCuaHang, MaCV)
-VALUES
-('Nguyễn Văn A', 'Nam', '0901112222', 'Hà Nội', '1998-01-01', 'a@shop.com', 1, 1),
-('Trần Thị B', 'Nữ', '0913334444', 'TP.HCM', '2000-02-02', 'b@shop.com', 2, 2);
-
-UPDATE CuaHang SET MaNVQuanLy = 1 WHERE MaCuaHang = 1;
-
+-- 6. Các dữ liệu khác
 INSERT INTO DanhMuc (TenDanhMuc) VALUES
 ('Áo'), ('Quần'), ('Phụ kiện');
 
@@ -288,10 +293,10 @@ VALUES
 -- Khách hàng và đơn hàng
 INSERT INTO KhachHang (HoTen, Email, NgaySinh, DiaChi, SoDT, DiemThuong, GioiTinh)
 VALUES
-('Phạm Minh C', 'c@gmail.com', 2002, 'Đà Nẵng', '0905556666', 10, 'Nam');
+('Phạm Minh C', 'c@gmail.com', '2002-01-01', 'Đà Nẵng', '0905556666', 10, 'Nam');
 
 INSERT INTO DonHang (MaKhachHang, TrangThai)
-VALUES (1, 'Chờ xác nhận');
+VALUES (1, 1); -- Giả sử 1 là trạng thái 'Chờ xác nhận' (INT)
 
 INSERT INTO CTDonHang (MaDonHang, MaSP, SoLuong, ThanhTien)
 VALUES (1, 1, 2, 300000);
