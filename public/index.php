@@ -12,6 +12,7 @@ require("../model/mathang.php");
 require("../model/taikhoan.php");
 require("../model/khachhang.php");
 require("../model/hinhanhsanpham.php");
+require("../model/phanhoi.php");
 
 require("../model/sukien.php"); // Thêm model sự kiện
 
@@ -22,6 +23,7 @@ $taikhoan = new TAIKHOAN();
 $ha = new HINHANHSANPHAM();
 $kh = new KHACHHANG();
 $sk = new SUKIEN(); // Tạo đối tượng sự kiện
+$ph = new PHANHOI();
 
 // Hàm đếm hàng trong giỏ
 function demhangtronggio()
@@ -113,9 +115,10 @@ switch ($action) {
 
                 $islogin = $taikhoan->kiemtrataikhoanhople($username, md5($password));
                 if ($islogin) {
-                    // Lưu thông tin người dùng vào session
+                    // Đăng nhập thành công, lấy thông tin khách hàng từ bảng khachhang
                     $user = $kh->layKhachHangTheoUsername($username);
                     $_SESSION['user']['HoTen'] = $user['HoTen'];
+                    $_SESSION['user']['MaKH'] = $user['MaKhachHang'];
                     echo '<script>alert("Đăng nhập thành công!"); window.location="index.php";</script>';
                 } else {
                     echo '<script>alert("Tên đăng nhập hoặc mật khẩu không đúng."); window.location="index.php?action=trangchu";</script>';
@@ -146,7 +149,7 @@ switch ($action) {
         if (isset($_REQUEST["id"])) {
             $id = $_REQUEST["id"];
             $danhmuctheoID = $dm->laydanhmuctheoid($id);
-            $tendanhmuc = $danhmuctheoID['TenDM'];
+            $tendanhmuc = $danhmuctheoID['TenDanhMuc'];
             $mathang = $mh->laymathangtheodanhmuc($id);
             include("group.php");
         } else {
@@ -168,6 +171,7 @@ switch ($action) {
             $dsHinhAnh = $ha->layTatCaHinhAnhTheoMaSP($mahang);
             $dsSPLienQuan = $mh->laymathangtheodanhmuc($mhct['MaDM']);
             $tenDM = $dm->laytendanhmuctheoMaSP($mhct['MaDM']);
+            $phanhoi = $ph->layphanhoitheoidsp($mahang);
             include("detail.php");
         }
         break;
@@ -302,6 +306,68 @@ switch ($action) {
         
         // Trang thanh toán
         include("checkout.php");
+        break;
+
+    case "themphanhoi":
+        // Kiểm tra người dùng đã đăng nhập chưa
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để gửi phản hồi!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        // Xử lý thêm phản hồi
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['MaSP'])) {
+            $maSP = $_POST['MaSP'];
+            $hoTen = $_POST['HoTen'];
+            $danhGia = isset($_POST['DanhGia']) ? (int)$_POST['DanhGia'] : 5;
+            $chiTiet = $_POST['ChiTietPH'];
+            $maND = $_SESSION['user']['MaKH']; // Lấy MaKH từ session
+
+            if (empty($hoTen) || empty($chiTiet)) {
+                echo '<script>alert("Vui lòng điền đầy đủ thông tin."); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
+            } else {
+                $ph->themphanhoi($maND, $maSP, $chiTiet, $danhGia);
+                echo '<script>alert("Gửi phản hồi thành công!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
+            }
+        }
+        break;
+    
+    case "suaphanhoi":
+        // Kiểm tra người dùng đã đăng nhập chưa
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập để sửa phản hồi!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        // Xử lý sửa phản hồi
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['MaKhachHang']) && isset($_POST['MaSP'])) {
+            $maKH = $_POST['MaKhachHang'];
+            $maSP = $_POST['MaSP'];
+            $danhGia = isset($_POST['DanhGia']) ? (int)$_POST['DanhGia'] : 5;
+            $chiTiet = $_POST['ChiTietPH'];
+
+            // Kiểm tra xem người dùng có phải là chủ sở hữu của phản hồi không
+            if ($_SESSION['user']['MaKH'] != $maKH) {
+                echo '<script>alert("Bạn không có quyền sửa phản hồi này!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
+                exit();
+            }
+
+            $ph->suaphanhoi($maKH, $maSP, $chiTiet, $danhGia);
+            echo '<script>alert("Cập nhật phản hồi thành công!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
+        }
+        break;
+
+    case "xoaphanhoi":
+        // Kiểm tra người dùng đã đăng nhập chưa
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        // Xử lý xóa phản hồi
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['MaKhachHang']) && isset($_POST['MaSP'])) {
+            $maKH = $_POST['MaKhachHang'];
+            $maSP = $_GET['MaSP'];
+            $ph->xoaphanhoi($maKH, $maSP);
+            echo '<script>alert("Xóa phản hồi thành công!"); window.location="index.php?action=detail&id=' . $maSP . '";</script>';
+        }
         break;
 
     default:
