@@ -228,7 +228,7 @@ INSERT INTO ChamCong (MaNhanVien, NgayCham, GioVao, GioRa, ThoiGianLam, DanhGia,
     (1, '2025-11-20', '08:00', '17:00', 8.0, 'Tốt', 'Đúng giờ, làm đủ ca'),
     (2, '2025-11-20', '08:15', '17:00', 7.75, 'Khá', 'Đến muộn 15 phút'),
     (1, '2025-11-21', '08:00', '16:30', 7.5, 'Xuất sắc', 'Về sớm do hoàn thành công việc'),
-    (3, '2025-11-21', '09:00', '17:00', 7.0, 'Trung bình', 'Đi muộn, cần nhắc nhở');
+    (2, '2025-11-21', '09:00', '17:00', 7.0, 'Trung bình', 'Đi muộn, cần nhắc nhở');
 
 INSERT INTO CuaHang (TenCuaHang, SoChiNhanh, SoDT, DiaChi)
 VALUES
