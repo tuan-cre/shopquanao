@@ -173,6 +173,24 @@ class MATHANG
         }
     }
 
+    // Tìm kiếm
+    public function timkiemmathang($tukhoa)
+    {
+        $db = DATABASE::connect();
+        try {
+            $sql = "SELECT * FROM SanPham WHERE TenSP LIKE :tukhoa";
+            $cmd = $db->prepare($sql);
+            // tìm kiếm gần đúng
+            $cmd->bindValue(':tukhoa', '%' . $tukhoa . '%');
+            $cmd->execute();
+            $mathang = $cmd->fetchAll();
+            return $mathang;
+        } catch (PDOException $e) {
+            $error_message = $e->getMessage();
+            echo "<p>Lỗi truy vấn: $error_message</p>";
+            exit();
+        }
+    }
     // Thêm mới
     public function themmathang($mathang)
     {

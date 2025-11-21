@@ -88,8 +88,9 @@
 
         <!-- Search -->
         <div class="search-bar px-5 py-2 d-flex justify-content-end">
-            <form class="d-flex" role="search" style="width: 470px;">
-                <input class="form-control form-control-lg me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+            <form class="d-flex" action="index.php" method="get" role="search" style="width: 470px;">
+                <input type="hidden" name="action" value="timkiem">
+                <input class="form-control form-control-lg me-2" type="search" name="tukhoa" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
                 <button class="btn btn-outline-light btn-lg" type="submit"><i class="bi bi-search"></i></button>
             </form>
         </div>
