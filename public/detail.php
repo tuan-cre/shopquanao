@@ -5,7 +5,7 @@
             <img id="main-img" src="../images/products/<?= $mhct['HinhAnh'] ?>" alt="Áo nỉ màu xám" />
             <div class="img-more d-flex justify-content-evenly mt-3">
                 <?php foreach ($dsHinhAnh as $ha): ?>
-                    <img class="img-item" src="../images/products/<?= $ha['DuongDan'] ?>" alt="<?= $mhct['TenSP'] ?>" />
+                    <img class="img-item" src="../<?= $ha['DuongDan'] ?>" alt="<?= $mhct['TenSP'] ?>" />
                 <?php endforeach; ?>
             </div>
         </div>

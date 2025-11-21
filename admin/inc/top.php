@@ -74,6 +74,14 @@
 						</a>
 					</li>
 
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qlkhohang") !== false)
+						echo "active"; ?>">
+						<a class="sidebar-link" href="../qlkhohang/index.php">
+							<i class="align-middle" data-feather="archive"></i> <span class="align-middle">Quản lý kho
+								hàng</span>
+						</a>
+					</li>
+
 					<li class="sidebar-header text-info">
 						TỔ CHỨC
 					</li>
@@ -113,8 +121,9 @@
 						</a>
 					</li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="">
+					<li class="sidebar-item <?php if (strpos($_SERVER['REQUEST_URI'], "qldoanhthu") !== false)
+						echo "active"; ?>">
+						<a class="sidebar-link" href="../qldoanhthu/index.php">
 							<i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Quản lý
 								doanh thu</span>
 						</a>

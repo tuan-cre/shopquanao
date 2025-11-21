@@ -2,6 +2,11 @@
     include("inc/top.php");
 ?>
 
+<!-- Carousel -->
+<?php include("inc/carousel.php"); ?>
+
+<section id="sanpham" class="py-5">
+<div class="container px-4 px-lg-5 mt-5">
 <style>
     /* === GIAO DIỆN MỚI: TỐI GIẢN & HIỆN ĐẠI === */
     :root {
@@ -248,6 +253,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+</div>
+</section>
 
 <?php
     include("inc/bottom.php");

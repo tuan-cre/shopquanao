@@ -98,11 +98,12 @@ class TAIKHOAN {
             $cmd = $db->prepare($sql);
             $cmd->bindValue(":u", $username);
             $cmd->bindValue(":p", $password);
-            $cmd->execute();
+            $result = $cmd->execute();
+            return $result;
         } catch (PDOException $e) {
             $error_message = $e->getMessage();
             echo "<p>Lỗi truy vấn: $error_message</p>";
-            exit();
+            return false;
         }
     }
 }
