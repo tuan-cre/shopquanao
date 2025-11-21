@@ -5,12 +5,11 @@ class DONHANGCT{
 	public function themchitietdonhang($donhang_id,$mathang_id,$dongia,$soluong,$thanhtien){
 		$db = DATABASE::connect();
 		try{
-			$sql = "INSERT INTO donhangct(donhang_id, mathang_id, dongia, soluong, thanhtien) 
-					VALUES(:donhang_id, :mathang_id, :dongia, :soluong, :thanhtien)";
+			$sql = "INSERT INTO CTDonHang(MaDonHang, MaSP, SoLuong, ThanhTien) 
+					VALUES(:donhang_id, :mathang_id, :soluong, :thanhtien)";
 			$cmd = $db->prepare($sql);
 			$cmd->bindValue(':donhang_id',$donhang_id);			
 			$cmd->bindValue(':mathang_id',$mathang_id);
-			$cmd->bindValue(':dongia',$dongia);
 			$cmd->bindValue(':soluong',$soluong);
 			$cmd->bindValue(':thanhtien',$thanhtien);
 			$cmd->execute();
@@ -29,7 +28,7 @@ class DONHANGCT{
         $db = DATABASE::connect();
         try{
             $sql = "SELECT ct.*, sp.TenSP, sp.HinhAnh, sp.GiaBan
-                    FROM ctdonhang ct 
+                    FROM CTDonHang ct 
                     JOIN SanPham sp ON ct.MaSP = sp.MaSP
                     WHERE ct.MaDonHang=:donhang_id";
             $cmd = $db->prepare($sql);
