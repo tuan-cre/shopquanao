@@ -27,6 +27,7 @@ $kh = new KHACHHANG();
 $sk = new SUKIEN(); // Tạo đối tượng sự kiện
 $ph = new PHANHOI();
 $ctdonhang = new DONHANGCT();
+$dh = new DONHANG();
 
 // Hàm đếm hàng trong giỏ
 function demhangtronggio()
@@ -364,7 +365,7 @@ switch ($action) {
             exit();
         }
         $ttKhachHang = $kh->layKhachHangTheoId($_SESSION['user']['MaKhachHang']);
-        $lichsu = $ctdonhang->lichsudonhangtheokhachhang($_SESSION['user']['MaKhachHang']);
+        $lichsu = $dh->layDonHangTheoMaKH($_SESSION['user']['MaKhachHang']);
         include("profile.php");
         break;
 

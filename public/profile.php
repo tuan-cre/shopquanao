@@ -160,19 +160,38 @@
                                             <table class="min-w-full divide-y divide-border-color dark:divide-gray-700">
                                                 <thead>
                                                     <tr>
-                                                        <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-gray-300 uppercase tracking-wider">Mã đơn hàng</th>
                                                         <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-gray-300 uppercase tracking-wider">Ngày đặt</th>
                                                         <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-gray-300 uppercase tracking-wider">Trạng thái</th>
-                                                        <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-gray-300 uppercase tracking-wider">Tổng tiền</th>
+                                                        <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary dark:text-gray-300 uppercase tracking-wider">Hoạt động</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-border-color dark:divide-gray-700">
                                                     <?php foreach ($lichsu as $donhang) : ?>
                                                         <tr>
-                                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary dark:text-white"><?= $donhang['MaDonHang'] ?></td>
-                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300"><?= date('d/m/Y', strtotime($donhang['NgayDatHang'])) ?></td>
-                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300"><?= $donhang['TrangThai'] ?></td>
-                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300"><?= number_format($donhang['TongTien'], 0, ',', '.') ?> VND</td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary dark:text-white hidden"><?= $donhang['MaDonHang'] ?></td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300"><?= date('d/m/Y', strtotime($donhang['NgayDat'])) ?></td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300">
+                                                            <?php 
+                                                                switch ($donhang['TrangThai']) {
+                                                                    case '0':
+                                                                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Đang xử lý</span>';
+                                                                        break;
+                                                                    case '1':
+                                                                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Đang vận chuyển</span>';
+                                                                        break;
+                                                                    case '2':
+                                                                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Đã giao hàng</span>';
+                                                                        break;
+                                                                    case '3':
+                                                                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Đã hủy</span>';
+                                                                        break;
+                                                                    default:
+                                                                        echo '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Không xác định</span>';
+                                                                        break;
+                                                                }
+                                                            ?>
+                                                            </td>
+                                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary dark:text-gray-300"><a href="order_details.php?order_id=<?= $donhang['MaDonHang'] ?>">Xem chi tiết</a></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 </tbody>
