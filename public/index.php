@@ -63,19 +63,28 @@ switch ($action) {
         include("register.php");
         break;
     case "doimatkhau":
-        if ($_REQUEST['MatKhauMoi'] && $_REQUEST['MatKhauCu']) {
-            $matkhaucu = md5($_REQUEST['MatKhauCu']);
-            $matkhaumoi = md5($_REQUEST['MatKhauMoi']);
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['MatKhauMoi'], $_POST['MatKhauCu'])) {
+            $matkhaucu = md5($_POST['MatKhauCu']);
+            $matkhaumoi = md5($_POST['MatKhauMoi']);
             $username = $_SESSION['user']['Username'];
             $islogin = $taikhoan->kiemtrataikhoanhople($username, $matkhaucu);
             if ($islogin) {
-                $result = $taikhoan->doimatkhau($username, $matkhaumoi);
-                echo '<script>alert("Đổi mật khẩu thành công! Vui lòng đăng nhập lại."); window.location="index.php?action=dangnhap";</script>';
+                $taikhoan->doimatkhau($username, $matkhaumoi);
                 session_unset();
                 session_destroy();
+                echo '<script>alert("Đổi mật khẩu thành công! Vui lòng đăng nhập lại."); window.location="index.php?action=dangnhap";</script>';
             } else {
                 echo '<script>alert("Mật khẩu cũ không đúng! Vui lòng thử lại."); window.location="index.php?action=thongtin";</script>';
             }
+        } else {
+            // Nếu không có POST data, redirect về trang thông tin
+            echo '<script>window.location="index.php?action=thongtin";</script>';
         }
         break;
     case "dangxuat":
@@ -346,6 +355,50 @@ switch ($action) {
         // Hiển thị giỏ hàng rỗng (không redirect)
         $giohang = [];
         include("cart.php");
+        break;
+
+    case "thongtin":
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        $ttKhachHang = $kh->layKhachHangTheoId($_SESSION['user']['MaKhachHang']);
+        $lichsu = $ctdonhang->lichsudonhangtheokhachhang($_SESSION['user']['MaKhachHang']);
+        include("profile.php");
+        break;
+
+    case "capnhatthongtin":
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            echo '<script>alert("Vui lòng đăng nhập!"); window.location="index.php?action=dangnhap";</script>';
+            exit();
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $maKH = $_SESSION['user']['MaKhachHang'];
+            $hoTen = $_POST['HoTen'];
+            $diaChi = $_POST['DiaChi'];
+            $soDT = $_POST['SoDT'];
+            $email = $_POST['Email'];
+            $gioiTinh = $_POST['GioiTinh'];
+            $ngaySinh = $_POST['NgaySinh'];
+
+            $khachhang = new KHACHHANG();
+            $khachhang->setMaKhachHang($maKH);
+            $khachhang->setHoTen($hoTen);
+            $khachhang->setDiaChi($diaChi);
+            $khachhang->setSoDienThoai($soDT);
+            $khachhang->setEmail($email);
+            $khachhang->setGioiTinh($gioiTinh == '0' ? 'Nam' : ($gioiTinh == '1' ? 'Nữ' : 'Khác'));
+            $khachhang->setNamSinh($ngaySinh);
+
+            $result = $kh->capNhatKhachHang($khachhang);
+            if ($result) {
+                echo '<script>alert("Cập nhật thông tin thành công!"); window.location="index.php?action=thongtin";</script>';
+            } else {
+                echo '<script>alert("Cập nhật thông tin thất bại!"); window.location="index.php?action=thongtin";</script>';
+            }
+        }
         break;
 
     case "gioithieu":
