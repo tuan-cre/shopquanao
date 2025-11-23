@@ -118,7 +118,12 @@ switch ($action) {
             throw new Exception("ID sản phẩm không hợp lệ.");
         }
 
-        // Cập nhật thông tin cơ bản của sản phẩm
+        // Chuẩn bị thư mục và danh sách đuôi file cho phép (Dùng chung cho cả 2)
+        $uploadFolder = __DIR__ . "/../../images/products/";
+        if (!is_dir($uploadFolder)) mkdir($uploadFolder, 0775, true);
+        $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        // 1. Cập nhật thông tin cơ bản
         $mathanghh = new MATHANG();
         $mathanghh->setid($idSP);
         $mathanghh->setdanhmuc_id($_POST["optdanhmuc"]);
@@ -127,36 +132,38 @@ switch ($action) {
         $mathanghh->setgiaban($_POST["txtgiaban"]);
         $mathanghh->setMoTa($_POST['txtmota']);
 
-        // Nếu có upload ảnh chính mới (input name="hinhanh")
+        // 2. Xử lý ảnh đại diện (Main Image)
+        $imageToSet = $_POST["txthinhcu"] ?? null; // Mặc định giữ ảnh cũ
+
         if (isset($_FILES["hinhanh"]) && !empty($_FILES["hinhanh"]["name"])) {
-            // tạo tên an toàn và move file
             $orig = basename($_FILES["hinhanh"]["name"]);
             $ext = strtolower(pathinfo($orig, PATHINFO_EXTENSION));
-            $safeBase = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", pathinfo($orig, PATHINFO_FILENAME));
-            $uniqueMain = $safeBase . '_' . time() . '.' . $ext;
-            $uploadFolder = __DIR__ . "/../../images/products/";
-            if (!is_dir($uploadFolder)) mkdir($uploadFolder, 0775, true);
-            $destMain = $uploadFolder . $uniqueMain;
 
-            if (is_uploaded_file($_FILES["hinhanh"]["tmp_name"]) && move_uploaded_file($_FILES["hinhanh"]["tmp_name"], $destMain)) {
-                // Chỉ lưu tên file vào bảng SanPham (không có path)
-                $mathanghh->sethinhanh($uniqueMain);
+            // [FIX] Kiểm tra bảo mật đuôi file cho ảnh chính
+            if (in_array($ext, $allowedExt)) {
+                $safeBase = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", pathinfo($orig, PATHINFO_FILENAME));
+                $uniqueMain = $safeBase . '_' . time() . '.' . $ext;
+                $destMain = $uploadFolder . $uniqueMain;
+
+                if (is_uploaded_file($_FILES["hinhanh"]["tmp_name"]) && move_uploaded_file($_FILES["hinhanh"]["tmp_name"], $destMain)) {
+                    $imageToSet = $uniqueMain; // Cập nhật tên ảnh mới
+
+                    // [FIX] Xóa ảnh cũ khỏi server để tránh rác
+                    $oldImageName = $_POST["txthinhcu"] ?? "";
+                    if (!empty($oldImageName) && file_exists($uploadFolder . $oldImageName)) {
+                        @unlink($uploadFolder . $oldImageName);
+                    }
+                }
             }
-        } else {
-            // giữ ảnh cũ: server gửi txthinhcu trong form
-            $mathanghh->sethinhanh($_POST["txthinhcu"] ?? null);
         }
+        $mathanghh->sethinhanh($imageToSet);
 
-        // Thực hiện update thông tin sản phẩm
+        // Thực hiện update vào DB
         $mh->suamathang($mathanghh);
 
-        // 2) Xử lý ảnh gallery (filehinhanh[]). Chiến lược an toàn:
-        // - Nếu không có file mới => giữ nguyên gallery (không xóa)
-        // - Nếu có file mới => di chuyển tất cả file mới sang thư mục, nếu tất cả ok -> xóa file cũ trong FS và DB -> chèn bản ghi mới
-
+        // 3. Xử lý ảnh Gallery
         $hasNewGallery = false;
-        if (isset($_FILES["filehinhanh"]) && isset($_FILES["filehinhanh"]["name"]) && is_array($_FILES["filehinhanh"]["name"])) {
-            // kiểm xem có ít nhất 1 file được chọn (tên khác rỗng)
+        if (isset($_FILES["filehinhanh"]["name"])) {
             foreach ($_FILES["filehinhanh"]["name"] as $nm) {
                 if (!empty($nm)) {
                     $hasNewGallery = true;
@@ -165,23 +172,23 @@ switch ($action) {
             }
         }
 
-        $uploadFolder = __DIR__ . "/../../images/products/";
-        if (!is_dir($uploadFolder)) mkdir($uploadFolder, 0775, true);
-
-        $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
         if ($hasNewGallery) {
-            // 2.1 Di chuyển tất cả file mới vào temp list
-            $movedFiles = []; // chứa relative paths đã move thành công
+            $movedFiles = [];
+
             foreach ($_FILES["filehinhanh"]["tmp_name"] as $key => $tmp_name) {
                 if (!is_uploaded_file($tmp_name)) continue;
+
                 $originalName = basename($_FILES["filehinhanh"]["name"][$key]);
-                if (empty($originalName)) continue;
                 $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
                 if (!in_array($ext, $allowedExt)) continue;
 
                 $safeBase = preg_replace("/[^a-zA-Z0-9\.\-_]/", "", pathinfo($originalName, PATHINFO_FILENAME));
+                // Thêm $key vào tên file để tránh trùng khi up nhiều file cùng lúc
                 $uniqueName = $safeBase . '_' . time() . '_' . $key . '.' . $ext;
+
+                // LƯU Ý: Ở đây mình giữ logic cũ của bạn là lưu đường dẫn 'images/products/...'
+                // Nếu muốn đồng bộ với ảnh chính (chỉ lưu tên), hãy sửa dòng dưới thành: $relativePath = $uniqueName;
                 $relativePath = "images/products/" . $uniqueName;
                 $dest = $uploadFolder . $uniqueName;
 
@@ -190,40 +197,36 @@ switch ($action) {
                 }
             }
 
-            // Nếu có file đã move thành công -> xóa ảnh cũ và insert mới
+            // Nếu có ít nhất 1 file mới upload thành công
             if (!empty($movedFiles)) {
-                // 2.2 Lấy danh sách ảnh cũ từ DB
+                // 3.1 Lấy danh sách ảnh cũ để xóa file vật lý
                 $existingImages = $ha->layTatCaHinhAnhTheoMaSP($idSP);
-
-                // 2.3 Xóa file cũ trên filesystem
                 foreach ($existingImages as $image) {
+                    // Đường dẫn trong DB của bạn là: images/products/abc.jpg
+                    // Nên path file thực tế là: __DIR__ /../../ + images/products/abc.jpg
                     $filePath = __DIR__ . "/../../" . $image['DuongDan'];
                     if (file_exists($filePath)) {
                         @unlink($filePath);
                     }
                 }
 
-                // 2.4 Xóa bản ghi ảnh cũ trong DB
+                // 3.2 Xóa dữ liệu cũ trong DB
                 $ha->xoaHinhAnhTheoMaSP($idSP);
 
-                // 2.5 Chèn các ảnh mới vào DB
-                $order = 1;
+                // 3.3 Insert ảnh mới
                 foreach ($movedFiles as $rel) {
                     $hinhAnhSP = new HINHANHSANPHAM();
                     $hinhAnhSP->setMaSP($idSP);
                     $hinhAnhSP->setDuongdan($rel);
                     $hinhAnhSP->themHinhAnh();
                 }
-            } else {
-                // Không file nào move thành công -> không thay đổi gì cho gallery
             }
         }
-
-        // 3) Sau khi xong, load lại danh sách sản phẩm
+        // Load lại danh sách
         $mathang = $mh->laymathang();
         include("main.php");
         break;
-
+        
     default:
         break;
 }
