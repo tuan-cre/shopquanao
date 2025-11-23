@@ -192,23 +192,42 @@ switch ($action) {
 
             // Nếu có file đã move thành công -> xóa ảnh cũ và insert mới
             if (!empty($movedFiles)) {
-                // 2.2 Lấy danh sách ảnh cũ từ DB
+                // lay all anh cu
                 $existingImages = $ha->layTatCaHinhAnhTheoMaSP($idSP);
 
-                // 2.3 Xóa file cũ trên filesystem
+                // xac dinh anh chinh
+                $finalMainImage = $mathanghh->getHinhAnh();
+                // tao duong dan
+                $finalMainImageBasename = $finalMainImage ? basename($finalMainImage) : null;
+
+                // xoa anh cu
+                $keptOldImage = null; 
                 foreach ($existingImages as $image) {
                     $filePath = __DIR__ . "/../../" . $image['DuongDan'];
+                    $basename = basename($image['DuongDan']);
+                    if ($finalMainImageBasename && $basename === $finalMainImageBasename) {
+                        // giu anh main
+                        $keptOldImage = $image['DuongDan'];
+                        continue;
+                    }
                     if (file_exists($filePath)) {
                         @unlink($filePath);
                     }
                 }
 
-                // 2.4 Xóa bản ghi ảnh cũ trong DB
+                //xoa anh cu
                 $ha->xoaHinhAnhTheoMaSP($idSP);
 
-                // 2.5 Chèn các ảnh mới vào DB
+                $finalGallery = $movedFiles;
+                if ($keptOldImage) {
+                    if (!in_array($keptOldImage, $finalGallery)) {
+                        array_unshift($finalGallery, $keptOldImage);
+                    }
+                }
+
+                // 2.5 Chen cac anh moi vao DB
                 $order = 1;
-                foreach ($movedFiles as $rel) {
+                foreach ($finalGallery as $rel) {
                     $hinhAnhSP = new HINHANHSANPHAM();
                     $hinhAnhSP->setMaSP($idSP);
                     $hinhAnhSP->setDuongdan($rel);
