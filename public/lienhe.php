@@ -1,4 +1,4 @@
-git config pull.rebase false<?php include("inc/top.php"); ?>
+<?php include("inc/top.php"); ?>
 
 <div class="container my-5">
     <!-- Banner liên hệ -->
