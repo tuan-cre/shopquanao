@@ -44,7 +44,7 @@
             foreach ($chitietdonhang as $ct) :
         ?>
                 <tr>
-                    <td><img src="../../<?php echo $ct["HinhAnh"]; ?>" width="50"></td>
+                    <td><img src="../../images/products/<?php echo $ct["HinhAnh"]; ?>" width="50"></td>
                     <td><?php echo $ct["TenSP"]; ?></td>
                     <td><?php echo number_format($ct["GiaBan"]); ?> VNĐ</td>
                     <td><?php echo $ct["SoLuong"]; ?></td>
