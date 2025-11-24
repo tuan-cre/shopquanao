@@ -565,7 +565,8 @@ switch ($action) {
         
         // Tạo đơn hàng
         $dh = new DONHANG();
-        $donhangId = $dh->themdonhang($maKhachHang, 'Chờ xác nhận', $chitietdonhang);
+    // Use integer status code consistent with DB schema (0 = new order / awaiting confirmation)
+    $donhangId = $dh->themdonhang($maKhachHang, 0, $chitietdonhang);
 
         if ($donhangId) {
             // Xóa giỏ hàng

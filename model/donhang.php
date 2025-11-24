@@ -87,7 +87,8 @@ class DONHANG{
 			$sql = "UPDATE DonHang SET TrangThai=:trangthai WHERE MaDonHang=:id";
 			$cmd = $db->prepare($sql);
 			$cmd->bindValue(":id", $id);
-			$cmd->bindValue(":trangthai", $trangthai);  
+			// Ensure integer is used to match DB schema
+			$cmd->bindValue(":trangthai", (int)$trangthai, PDO::PARAM_INT);  
 			$result = $cmd->execute();
 			return $result;
 		}
@@ -109,7 +110,8 @@ class DONHANG{
 			$sql = "INSERT INTO DonHang(MaKhachHang, TrangThai) VALUES(:MaKhachHang, :TrangThai)";
 			$cmd = $db->prepare($sql);
 			$cmd->bindValue(':MaKhachHang', $MaKhachHang);
-			$cmd->bindValue(':TrangThai', $TrangThai);
+			// Ensure TrangThai inserted as integer (some DB schemas use INT for status)
+			$cmd->bindValue(':TrangThai', (int)$TrangThai, PDO::PARAM_INT);
 			$cmd->execute();
 			$donhang_id = $db->lastInsertId();
 
